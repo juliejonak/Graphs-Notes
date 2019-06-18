@@ -8,7 +8,7 @@ Breadth First Search: https://youtu.be/BK_8-XVp5XA
 
 Article: A Gentle Introduction to Graph Theory: https://medium.com/basecs/a-gentle-introduction-to-graph-theory-77969829ead8
 
-## Lecture I Notes: Graphs Intro, Representations & BFS/DFS
+# Lecture I Notes: Graphs Intro, Representations & BFS/DFS
 
 #### What are Graphs?
 
@@ -99,6 +99,46 @@ _Further learning: Dijkstra's's Algorithm (shortest path first) is a form of Bre
 When drawing out graphs, be sure to be specific with your arrows to properly visualize directions that data flow (for direct or undirected graphs, identifying cyclical graphs, etc.)
 
 
+#### But seriously, do graphs matter?
+
+From Steve Yegge's article on Get That Job At Google (https://steve-yegge.blogspot.com/2008/03/get-that-job-at-google.html):
+
+```
+Graphs
+
+Graphs are, like, really really important. 
+More than you think. Even if you already think 
+they're important, it's probably more than you think.
+
+There are three basic ways to represent a graph in 
+memory (objects and pointers, matrix, and adjacency 
+list), and you should familiarize yourself with each
+representation and its pros and cons.
+
+You should know the basic graph traversal algorithms:
+breadth-first search and depth-first search. 
+You should know their computational complexity, 
+their tradeoffs, and how to implement them in real code.
+
+You should try to study up on fancier algorithms, 
+such as Dijkstra and A*, if you get a chance. 
+They're really great for just about anything, 
+from game programming to distributed computing to 
+you name it. You should know them.
+
+Whenever someone gives you a problem, think graphs. 
+They are the most fundamental and flexible way of 
+representing any kind of a relationship, so it's about 
+a 50-50 shot that any interesting design problem has a 
+graph involved in it. Make absolutely sure you can't think 
+of a way to solve it using graphs before moving on to other
+solution types. This tip is important!
+```
+
+Short answer: yes.
+
+
+
 ## How to Represent a Graph
 
 There are several ways to represent graphs:
@@ -183,7 +223,7 @@ DFS Steps:
 
 
 
-## Lecture II 
+# Lecture II 
 
 A traversal search visits every single node in an order and does something (make a change, mark as visited, print, etc.).
 
@@ -243,9 +283,261 @@ def dft_recursive(self, starting_vertex, visited=None ):
 
 We have to always set it to None and then initialize it within the function, if we want a default value to be set to variable data.
 
-#### Why can we do DFS recursively but not BFS?
+#### Why can we do DFS recursively but not really BFS?
 
 Recursion has to be called on a new node each time, independently each time. But BFS puts all of the children into the queue at the same time, so it can't be used recursively.
+
+(There is a way to search BFS with a while loop that is not entirely recursion but similar.)
+
+
+##### How does DFS work on each loop?
+
+Looking at this example graph, let's find a path from 1 to 3:
+
+![Example Graph](./img/dfs-visit-order-2.png "Example Graph")
+
+
+We want to find a path from our starting vertex (1) to the destination vertex (3)
+
+```
+start = 1
+target = 3
+
+stack = [] # stack
+visited = {} # set
+```
+
+The first loop goes:
+
+```
+stack = [1]
+visited = {}
+
+path = [1]
+path_copy = [1, 2]
+v = 1
+```
+
+The next loop:
+
+```
+stack = [1,2]
+visited = {1}
+
+path = [1, 2]
+path_copy = [1, 2, 3]
+v = 2
+```
+
+But there's also a path to [1,2,4] so we need:
+
+```
+path = [1, 2]
+path_copy = [1, 2, 4]
+```
+
+So now...
+
+```
+stack = [ [1,2,3], [1,2,4]]
+visited = {1, 2}
+
+path = [1,2 4]
+path_copy = [1, 2, 4, 6]
+v = 3
+
+path = [1,2 4]
+path_copy = [1, 2, 4, 7]
+v = 3
+```
+
+Next loop:
+
+```
+stack = [ [1,2,3], [1,2,4,6], [1,2,4,7]]
+visited = {1, 2, 4}
+
+path = [1,2,4,7]
+path_copy = [1, 2, 4, 7, 6]
+v = 4
+```
+
+Next loop:
+
+```
+stack = [ [1,2,3], [1,2,4,6], [1,2,4,7]]
+visited = {1, 2, 4, 7}
+
+path = [1,2,4,7,6]
+path_copy = [1, 2, 4, 7, 6, 3]
+v = 5
+```
+
+Next loop:
+
+```
+stack = [ [1,2,3], [1,2,4,6], [1,2,4,7,6,3]]
+visited = {1, 2, 4, 7,6}
+
+path = [1,2,4,7,6,3]
+```
+
+Since 3 is our target, we return the path. It's not the shortest but that's how DFS iterates through, checking the possibilities of each path.
+
+
+
+### Let's try an example problem
+
+Using Leet Code's Word Ladder problem (https://leetcode.com/problems/word-ladder/)
+
+```
+Given two words (beginWord and endWord), and a dictionary's word list, find the length of shortest transformation sequence from beginWord to endWord, such that:
+
+Only one letter can be changed at a time.
+Each transformed word must exist in the word list. Note that beginWord is not a transformed word.
+```
+
+We want to change one letter at a time and see if this word exists in the given list.
+
+Let's use POLYA and our steps for solving graph problems.
+
+1. Translate the problem
+2. Build your graph
+3. Traverse your graph
+
+
+##### How do we recognize that this is a graph problem? 
+
+It doesn't look ike a graph problem off the bat. We need to look for some key words, like "shortest transformation sequence" or are seeking the relationships between things (words are one letter away).
+
+Many coding challenges are graph problems, because they're tricky and they contain many data structures and concepts. They're usually shorter on code for a solution once the idea is solved.
+
+First, let's translate this problem into graph terminology.
+
+What are the nodes, edges, weights and how do we traverse the graph?
+
+Words are our vertices. Neighbors are our edges (connection between words that are only one letter apart).
+
+Using the first example:
+
+```
+Input:
+beginWord = "hit",
+endWord = "cog",
+wordList = ["hot","dot","dog","lot","log","cog"]
+```
+
+Starting vertex is "hit", goal vertex is "cog".
+
+We should use BFS because the problem is asking us for the _shortest_ path.
+
+"Transformation sequence" should make you think of BFS as well. 
+
+"Word" is the graph vertex. "One letter change" is the graph edge.
+
+
+##### Build Your Graph
+
+What graph operations are necessary?
+Our vertex list needs to become a word list.
+
+We need to define a function to get all edges (neighbors).
+
+Using our basic BFS formula (that is being memorized):
+
+```
+# Implement our traversal
+def find_ladders(beginWord, endWord):
+    visited = set()
+    q = Queue()
+    q.enqueue( [beginWord] )
+    while q.size() > 0:
+        path = q.dequeue()
+        v = path[-1]
+        if v not in visited:
+            visited.add(v)
+            if v == endWord:
+                return path
+            for neighbor in get_neighbors(v):
+                path_copy = list(path)
+                path_copy.append(neighbor)
+                q.enqueue(path_copy)
+```
+
+Now we need to define our `getNeighbors()` function that's being called.
+
+We could loop over the letters in both words, at the same time, and set a count variable for all differences. If the count is exactly 1, then it's a neighbor. This comparison would be O(n) time where n is the length of the wordList we're comparing the given word to.
+
+That's not a problem when the list has 7 words, but an issue when it contains a full dictionary of words in the tens of thousands.
+
+We could search using a "wild card" by trying to find the neighbors of "cab" by searching for all words that would match `"*ab"`, `"c*b"`, and `"ca*"`.
+
+We would start by placing our wordList into a set.
+
+```
+word_set = set(["hot", "dot", "dog", "lot", "log", "cog"])
+```
+
+If we searched the wildcard of `*it`:
+
+`ait`
+`bit`
+`cit`
+`dit`...
+
+and so on, checking 26 possibilities if they are in the set.
+
+We'll repeat this for each following letter in the word.
+
+This is also `O(n)` but where n is the word length, not the wordlist we search through. While it's O(26 * n), that's not very long compared to the tens of thousands of a word list.
+
+Understanding how to compare O(n) where n is a different variable helps us decide which method of solving a problem is more efficient.
+
+Let's test out our get_neighbors function:
+
+```
+word_set = set(["hot", "dot", "dog", "lot", "log", "cog"])
+
+letters = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z']
+
+# Get neighbors function
+def get_neighbors(word):
+    # A neighbor is all words in the word list that differ by exactly one letter
+    
+    # create an empty neighbors list
+    neighbors = []
+    # turn our word into an array of characters
+    string_word = list(word)
+    # for each letter in the word...
+    for i in range(len(string_word)):
+        # For each letter in the alphabet...
+        for letter in letters:
+            # Make a copy so we don't override our item
+            # swap that letter with a letter in the alphabet
+            temp_word = list(string_word)
+            temp_word[i] = letter
+            # reform it into a word string and check if it's in word_set
+            w = "".join(temp_word)
+            # if it doesn't equal the original word and it's in the set, add to neighbors
+            if w !== word and w in word_set:
+                neighbors.append(w)
+```
+
+Now that both functions are written, we can use get_neighbors to run a BFS and efficiently solve this code challenge.
+
+But how would this solution scale if we have a wordList with over 200,000 words? 
+
+Testing against a large data set is a good way to see how efficient our solution is.
+
+It's still running quickly. The set allows us to check efficiently.
+
+So, overall, this ladder problem was just a path finding problem, perfecting for graphing.
+
+Today's assignment is solving the Earliest Ancestor code challenge.
+
+
+
+
 
 
 
