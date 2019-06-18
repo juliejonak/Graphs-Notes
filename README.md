@@ -181,8 +181,76 @@ Sets use extra space because they store both a value _and_ a pointer, which mean
 
 In most cases, the extra memory is not a big deal on sets until we start using extremely large data sets -- but it's a consideration to keep in mind.
 
-41:39 
+Time complexity is good as a tool but it's not the _only_ tool we shoud use to evaluate the ideal solution to pursue.
 
+##### Space and Time Complexity
+
+Assuming `n` = total number of vertices in the graph, `E` = total number of edges in the graph, and `e` is the total number of edges per vertex....   
+
+The space complexity of both a matrix and list are:
+
+Adjacency Matrix: `O(n^2)` --> the number of nodes * number of nodes, because it's creating a column _and_ row for each node
+
+Adjacency List: `O(n + E)` --> n for each entry, plus a list for every edge related to that entry
+
+The Time Complexity of adding a vertex...
+
+Adjacency Matrix: `O(n)`
+Because we are having to add a column of 0s and 1s for each new vertex (aka adding to eat set) - so O(n) where n is the number of nodes.
+
+Adjacency List: `O(1)`
+Because adding a new key to a dictionary is a constant time equation.
+
+The Time Complexity of removing a vertex...
+
+Adjacency Matrix: `O(n^2)`
+On the matrix, we'll simply remove the vertex reference on each row, then moving all the remaining vertex points in the set over one spot; and we do this one _every_ column. So it's the same as n*n, O(n^2)
+
+Adjacency List: `O(n)`
+On the adjacency list, we first have to remove B and its corresponding list of edges; but we also have to go through the remaining vertices and search their lists, to remove B as a referenced vertex as well.
+
+The Time Complextiy of adding or removing an edge...
+
+Adjacency Matrix: `O(1)`
+
+Adjacency List: `O(1)`
+
+Both of these are constant time operations because we are simply adding a reference in our list's set, or we are changing a 0 to a 1 in a column on the matrix.
+
+The Time Complexity of 'Get All Edges From Vertex'...
+
+This is a common use case. Say we want to find all the edges that originate from a specific vertex.
+
+Adjacency Matrix: `O(n)`
+
+Adjacency List: `O(1)`
+With an adjacency list, we can easily fetch all the edges from the dictionary like so:
+
+```
+return self.vertex[v]
+```
+
+But with the adjacency Matrix, we have to iterate through each row to populate a list based on the results, like so:
+
+```
+# Where v2 is the row we need to check:
+v_edges = []
+for v2 in self.edges[v]:
+    if self.edges[v][v2] > 0:
+        v_edges.append(v2)
+return v_edges
+```
+
+This is clearly more efficiently done with an adjacency list instead of an adjacency matrix.
+
+##### Why do we use 1's and 0's on the adjacency matrix?
+
+Currently the 0 represents no edge, and 1 indicates an edge exists, but with no weight. If we wanted to add weight to the edge, we could change the number there to the weight of that edge. (I.e. change it from 1 to 8.) See in the example below:
+
+![Adjacency Matrix](./img/adjacency_matrix.png "Adjacency Matrix")
+
+
+52:13
 
 
 
