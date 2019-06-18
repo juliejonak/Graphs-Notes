@@ -149,15 +149,58 @@ In most cases, the extra memory is not a big deal on sets until we start using e
 
 
 
+BFS Steps:
+
+```
+# Create an empty set to store visited nodes
+    # Create an empty Queue and enqueue & PATH TO the starting vertex
+    # While the queue is not empty...
+        # Dequeue the first PATH
+        # GRAB THE VERTEX FROM THE END OF THE PATH
+        # IF VERTEX = TARGET, RETURN PATH
+        # If that vertex has not been visited...
+            # Mark it as visited
+            # Then add & PATH TO all of its neighbors to the back of the queue
+                # Copy the path
+                # Append neighbor to the back of the copy
+                # Enqueue copy
+```
+
+DFS Steps:
+
+```
+# Create an empty set to store visited nodes
+    # Create an empty Queue and enqueue the starting vertex
+    # While the queue is not empty...
+        # Dequeue the first vertex
+        # If that vertex has not been visited...
+            # Mark it as visited
+            # Then add all of its neighbors to the back of the queue
+```
+
+
 
 
 
 
 ## Lecture II 
 
+A traversal search visits every single node in an order and does something (make a change, mark as visited, print, etc.).
+
+In a Breadth-First Search, we're still traversing the nodes but only _looking_ for the target and return the item or the path to that node. We're returning the shortest path each time, whereas Depth First does not return the _shortest_ path.
+
+If we're looking at this graph and try to find the shortest path from 1 to 6, it should return [1, 2, 4, 6].
+
+If we were looking from 1 to 3, the shortest path is [1, 2, 3] but a perfectly valid answer would also be [1, 2, 4, 6, 3]. BFS will always gives us the shortest route whereas DFS might give us an alternate route that is not the shortest.
 
 
+#### When do you use BFS over DFS?
 
+BFS is good for giving the shortest path but the downsides are that you need to hold each entire row in memory (which is bad on a very wide graph where the solution is in depth).
+
+Large sets of data/possible solutions is better for DFS (memory efficient) but BFS is best for when we want the shortest path. If we need to go deep into a tree, DFS is better.
+
+Sometimes it doesn't matter.
 
 
 
