@@ -24,27 +24,59 @@ The components that make up a graph are:
 
 For example, cities could be vertices, with roads as the edges that connect all the cities. Not all edges are created equally so it may take more time or resources to go from one node to another.
 
-![Edges and weights](edges_weights.png "Edges and Weights")
+![Edges and Weights](./img/edges_weight.png "Edges and Weights")
+
+A real time application of adding weight to edges is showing a traffic map, where different colors correspond to higher or lower weights of traveling along the edges:
+
+![Weighted Map](./img/traffic.png "Weighted Map")
+
+In video games, different types of terrain often slow down or hinder character movement. That is another use case of edge weights.
+
+A literal edge weight cost might be money when considering flight costs -- some distances cost more, or some non-stop flights may be more expensive than layovers.
 
 
-What are graphs useful for?
+## Graph Types and Terms
 
 They allow us to understand data and the relationship between the data better. For example, we might use a subway graph to understand to go from one station to another.
 
 There are several types of graphs:
 
-- `Directed Graph`: can only move in one direction along edges, like a single linked list.
+- `Directed Graph`: can only move in one direction along edges, like a single linked list. All the edges are directed from one vertex to another in a directed manner.
 
-- `Undirected Graph`: allows movement in both directions along edges, like a doubly linked list.
+Some social networks are considered directed, because you can follow someone on Twitter but that doesn't mean they follow you. It is one directional. However, on Facebook, when you befriend someone, they become your friend too. This is bi-directional.
 
-- `Cyclic Graph`: edges allow you to revisit at least one vertice, like a graph demonstrating the water cycle. There are states that water can revisit multiple times.
+- `Undirected Graph`: allows movement in both directions along edges, like a doubly linked list. The edges have a two way relationship without a direction.
 
-- `Acyclic Graph`: vertices can only be visited once. A recipe turned into a graph might be acyclic because some steps should only be done _once_.
+- `Cyclic Graph`: edges allow you to revisit at least one vertex, like a graph demonstrating the water cycle. There are states that water can revisit multiple times.
+
+![Water Cycle Graph](./img/water_cycle.jpg "Water Cycle Graph")
+
+
+- `Acyclic Graph`: vertices can only be visited once. A recipe turned into a graph might be acyclic because some steps should only be done _once_. Or the lifespan of an animal -- each stage of life only occurs once.
+
+![Butterfly Life Cycle](./img/butterfly.jpg "Butterfly Life Cycle")
+
+The relationship between two nodes might be acyclic, but if within the entire graph there exists even one cyclical relationship between nodes, then it is a cyclic graph.
 
 
 If there are no weights on the edges, it's considered an `Unweighted Graph`.
 
 
+`Dense` graphs means that for the number of nodes that exist, there are a high number of edges -- like a flight hub map:
+
+![Flight Hub Map](./img/flights.png "Flight Hub Map")
+
+
+A `sparse` graph has a lower ratio of nodes to edges, like a subway map:
+
+![Subway Map](./img/subway.jpg "Subway Map")
+
+
+- `Directed Acyclic Graphs` (DAGs): a one directional, non-circular graph. Moving node-to-node, one way, without encountering the same node again. Trees are often DAGs but not all DAGs are trees.
+
+GitHub uses DAGs for branching and then merging. It is one directional and there are no loops (it's not cyclical). If something is further down the commit change, it can't be moved to be earlier without breaking the chain of commits between both data points.
+
+_Further reading: Introduction to DAGs and How They Differ From Blockchains: https://medium.com/fantomfoundation/an-introduction-to-dags-and-how-they-differ-from-blockchains-a6f703462090_
 
 
 #### What will we be learning?
@@ -62,6 +94,69 @@ Handling graph problems follow the same three steps each time:
 3. Traverse the Graph
 
 _Further learning: Dijkstra's's Algorithm (shortest path first) is a form of Breadth First Search. Once you learn BFS, learning that would be easier._
+
+
+When drawing out graphs, be sure to be specific with your arrows to properly visualize directions that data flow (for direct or undirected graphs, identifying cyclical graphs, etc.)
+
+
+## How to Represent a Graph
+
+There are several ways to represent graphs:
+
+##### Adjacency List
+
+![Adjacency List](./img/adjacency_list.png "Adjacency List")
+
+Looking at the above graph, we can see that it is a directed, unweighted, cyclical graph.
+
+An adjacency list is a way to represent that graph by listing out the vertices/nodes and showing both their directions and weights (if there are any).
+
+This adjacency list shows a relationship from Vertex 1 to 2, 4 and 3. It then shows Vertex 2 to 4. 
+
+We can think of each of these as _sets_.
+
+If it were an undirected graph, we would need to list each edge twice, to represent each direction of the relationship between vertices.
+
+##### Adjacency Matrix
+
+This is a chart that holds one column and one row for each vertex on the graph.
+
+![Adjacency Matrix](./img/adjacency_matrix.png "Adjacency Matrix")
+
+If there is a 0, that means there is no edge between the two vertices; if there is a 1, then they do have a shared edge.
+
+##### When do we use a list v a matrix?
+
+We need to consider both our time and space complexity when deciding.
+
+Let's go back to dictionaries v sets. A dictionary contains key value pairs for the data, whereas a set only contains the data. Sets are somewhat like dictionaries without the keys.
+
+What are the drawbacks? Sets cannot have duplicates and are unordered (you're not guaranteed to get them in any particular order). 
+
+With binary trees, order mattered. But with graphs, there is no "first", just references to the directions, so it's fine to use a set for representation because we don't care about order.
+
+The time complexity of seeing if something is in a set is `O(1)` vs if it's in a list is `O(n)` time. A sorted list is `O(log n)` but that's still slower than O(1).
+
+Sets use extra space because they store both a value _and_ a pointer, which means they take up more space in memory.
+
+In most cases, the extra memory is not a big deal on sets until we start using extremely large data sets -- but it's a consideration to keep in mind.
+
+41:39 
+
+
+
+
+
+
+
+
+
+
+
+## Lecture II 
+
+
+
 
 
 
