@@ -27,5 +27,20 @@ def bfs(self, starting_vertex, destination_vertex):
                 q.enqueue(path_copy)
 
                 
-                
+## Recursive DFS solution
+
+def dft_recursive(self, starting_vertex, visited=None ):
+    # Print each vertex in depth-first order beginning from starting_verex. This should be done using recursion.
+    if visited is None:
+        visited = set()
+    # If the node hasn't been visited...
+    if starting_vertex not in visited:
+        # Mark the node as visited
+        print(starting_vertex)
+        visited.add(starting_vertex)
+    # Then call DFT_recursive on each child
+    for neighbor in self.vertices[starting_vertex]:
+        self.dft_recursive(neighbor, visited)
+
+    
                 

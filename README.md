@@ -189,6 +189,9 @@ A traversal search visits every single node in an order and does something (make
 
 In a Breadth-First Search, we're still traversing the nodes but only _looking_ for the target and return the item or the path to that node. We're returning the shortest path each time, whereas Depth First does not return the _shortest_ path.
 
+![Example Graph](./img/dfs-visit-order-2.png "Example Graph")
+
+
 If we're looking at this graph and try to find the shortest path from 1 to 6, it should return [1, 2, 4, 6].
 
 If we were looking from 1 to 3, the shortest path is [1, 2, 3] but a perfectly valid answer would also be [1, 2, 4, 6, 3]. BFS will always gives us the shortest route whereas DFS might give us an alternate route that is not the shortest.
@@ -202,7 +205,47 @@ Large sets of data/possible solutions is better for DFS (memory efficient) but B
 
 Sometimes it doesn't matter.
 
+BFS always returns the shortest path because it looks at _all_ the possibilities to find something 1 step away, then 2 steps away, then 3 steps away....until it finds a successful path.
 
+With DFS, it's searching paths but not across all one path possibilites first. It's going down a path to see if it's a _possible_ path -- not if it's the shortest.
+
+Let's try a recursive DFS algorithm:
+
+```
+def dft_recursive(self, starting_vertex, visited=set() ):
+    # Print each vertex in depth-first order beginning from starting_verex. This should be done using recursion.
+
+    # If the node hasn't been visited...
+    if starting_vertex not in visited:
+        # Mark the node as visited
+        print(starting_vertex)
+        visited.add(starting_vertex)
+    # Then call DFT_recursive on each child
+    for neighbor in self.vertices[starting_vertex]:
+        self.dft_recursive(neighbor, visited)
+
+```
+
+While this solution would work once, why won't it work if it gets called more than once?
+
+Python handles default values a little uniquely. `visited=set()` will create this default value once and use it each time, referencing the same place in memory, even if we want to call it a second time where the set() should initialize as a different value.
+
+This is a common Python gotcha, but not the case in other languages (like Ruby).
+
+Instead, we need to initialize like so:
+
+```
+def dft_recursive(self, starting_vertex, visited=None ):
+    # Print each vertex in depth-first order beginning from starting_verex. This should be done using recursion.
+    if visited is None:
+        visited = set()
+```
+
+We have to always set it to None and then initialize it within the function, if we want a default value to be set to variable data.
+
+#### Why can we do DFS recursively but not BFS?
+
+Recursion has to be called on a new node each time, independently each time. But BFS puts all of the children into the queue at the same time, so it can't be used recursively.
 
 
 
