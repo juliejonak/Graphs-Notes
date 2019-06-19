@@ -249,10 +249,17 @@ Currently the 0 represents no edge, and 1 indicates an edge exists, but with no 
 
 ![Adjacency Matrix](./img/adjacency_matrix.png "Adjacency Matrix")
 
+##### When do I use a matrix v list?
 
-52:13
+An adjacency matrix is best used when there are a lot of edges - if there aren't that many, they aren't memory efficient. Dense graphs are good for matrices.
 
+A sparse graph is better for an adjacency list.
 
+We also want to consider how often data changes when deciding between a list v matrix, given the time complexity of adding/removing vertices.
+
+For now, we'll be focusing on adjacency lists mostly on this sprint.
+
+55:47
 
 
 
