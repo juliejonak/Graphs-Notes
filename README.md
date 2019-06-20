@@ -1,14 +1,51 @@
 # Graphs
 
-#### Pre-Class Resources
+#### Table of Contents
 
-Intro to Graphs - Components, Uses & Types: https://youtu.be/Etva3hOjGMU
-Depth First Search: https://youtu.be/VTLI7l-Ah-8
-Breadth First Search: https://youtu.be/BK_8-XVp5XA
+1. [Lecture I: Graphs Intro, Representation & BFS/DFS](#Lecture-I-Notes:-Graphs-Intro,-Representations-&-BFS/DFS)
+    <br>a. [What are Graphs?](#What-are-Graphs?)
+        <br> - [Graph Types and Terms](#Graph-Types-and-Terms)
+        <br>
+    <br>b. [What will we be learning?](#What-will-we-be-learning?)
+    <br>
+    <br>c. [How to Represent a Graph](#How-to-Represent-a-Graph)
+    <br> - [Adjacency List](#Adjacency-List)
+    <br> - [Adjacency Matrix](#Adjacency-Matrix)
+    <br> - [When do we use a list v a matrix?](#When-do-we-use-a-list-v-a-matrix?)
+    <br>
+    <br>d. [Space and Time Complexity](#Space-and-Time-Complexity)
+    <br>e. [Queue and Stack](#Queue-and-Stack)
+    <br>f. [Breadth-First Traversal](#Breadth-First-Traversal)
+    <br>g. [Depth First Search](#Depth-First-Search)
+    <br>h. [Implementing BFT](#Implementing-BFT)
+    <br>i. [Implementing Depth First Traversal](#Implementing-Depth-First-Traversal)
+    <br>j. [Implementing Searches](#Implementing-Search)
+    <br>
+    <br>
+2. [Lecture II: Applied Graph Search](#Lecture-II)
+    <br>a. [When do you use BFS over DFS?](#When-do-you-use-BFS-over-DFS?)
+    <br>b. [Why can we use DFS recursively?](#Why-can-we-do-DFS-recursively-but-not-really-BFS?)
+    <br> c. [Example Code Challenge](#Let's-try-an-example-problem)
+    <br>
+    <br>
+3. [Lecture III: Random Social Network](#Lecture-III:-Random-Social-Network)
 
-Article: A Gentle Introduction to Graph Theory: https://medium.com/basecs/a-gentle-introduction-to-graph-theory-77969829ead8
+
+
 
 # Lecture I Notes: Graphs Intro, Representations & BFS/DFS
+
+#### Pre-Class Resources
+
+[Intro to Graphs - Components, Uses & Types](https://youtu.be/Etva3hOjGMU)
+
+[Depth First Search](https://youtu.be/VTLI7l-Ah-8)
+
+[Breadth First Search](https://youtu.be/BK_8-XVp5XA)
+
+[Article: A Gentle Introduction to Graph Theory](https://medium.com/basecs/a-gentle-introduction-to-graph-theory-77969829ead8)
+
+[Lecture Recording](https://youtu.be/QZlXUo-ovBs)
 
 #### What are Graphs?
 
@@ -101,7 +138,7 @@ When drawing out graphs, be sure to be specific with your arrows to properly vis
 
 #### But seriously, do graphs matter?
 
-From Steve Yegge's article on Get That Job At Google (https://steve-yegge.blogspot.com/2008/03/get-that-job-at-google.html):
+From Steve Yegge's article on [Get That Job At Google](https://steve-yegge.blogspot.com/2008/03/get-that-job-at-google.html):
 
 ```
 Graphs
@@ -165,6 +202,11 @@ This is a chart that holds one column and one row for each vertex on the graph.
 
 If there is a 0, that means there is no edge between the two vertices; if there is a 1, then they do have a shared edge.
 
+Why do we use 1's and 0's on the adjacency matrix?
+
+Currently the 0 represents no edge, and 1 indicates an edge exists, but with no weight. If we wanted to add weight to the edge, we could change the number there to the weight of that edge. (I.e. change it from 1 to 8.) See in the example image above.
+
+
 ##### When do we use a list v a matrix?
 
 We need to consider both our time and space complexity when deciding.
@@ -182,6 +224,15 @@ Sets use extra space because they store both a value _and_ a pointer, which mean
 In most cases, the extra memory is not a big deal on sets until we start using extremely large data sets -- but it's a consideration to keep in mind.
 
 Time complexity is good as a tool but it's not the _only_ tool we shoud use to evaluate the ideal solution to pursue.
+
+An adjacency matrix is best used when there are a lot of edges - if there aren't that many, they aren't memory efficient. Dense graphs are good for matrices.
+
+A sparse graph is better for an adjacency list.
+
+We also want to consider how often data changes when deciding between a list v matrix, given the time complexity of adding/removing vertices.
+
+For now, we'll be focusing on adjacency lists mostly on this sprint.
+
 
 ##### Space and Time Complexity
 
@@ -243,59 +294,558 @@ return v_edges
 
 This is clearly more efficiently done with an adjacency list instead of an adjacency matrix.
 
-##### Why do we use 1's and 0's on the adjacency matrix?
+##### Queue and Stack
 
-Currently the 0 represents no edge, and 1 indicates an edge exists, but with no weight. If we wanted to add weight to the edge, we could change the number there to the weight of that edge. (I.e. change it from 1 to 8.) See in the example below:
+In our [project for this Sprint](https://github.com/LambdaSchool/Graphs), within the Projects --> graphs --> Util.py file, there are two pre-defined classes: Queue() and Stack()
 
-![Adjacency Matrix](./img/adjacency_matrix.png "Adjacency Matrix")
+```
+class Queue():
+    def __init__(self):
+        self.queue = []
+    def enqueue(self, value):
+        self.queue.append(value)
+    def dequeue(self):
+        if self.size() > 0:
+            return self.queue.pop(0)
+        else:
+            return None
+    def size(self):
+        return len(self.queue)
 
-##### When do I use a matrix v list?
+class Stack():
+    def __init__(self):
+        self.stack = []
+    def push(self, value):
+        self.stack.append(value)
+    def pop(self):
+        if self.size() > 0:
+            return self.stack.pop()
+        else:
+            return None
+    def size(self):
+        return len(self.stack)
+```
 
-An adjacency matrix is best used when there are a lot of edges - if there aren't that many, they aren't memory efficient. Dense graphs are good for matrices.
+What is sub-optimal about this queue?
 
-A sparse graph is better for an adjacency list.
+It uses an array, specifically `pop(0)` that causes our entire array to shift over one, leading to an O(n) run time.
 
-We also want to consider how often data changes when deciding between a list v matrix, given the time complexity of adding/removing vertices.
+But in this scenario, why are we okay with it?
 
-For now, we'll be focusing on adjacency lists mostly on this sprint.
+We're using a small data set so this drawback doesn't affect our actual runtime.
 
-55:47
+In Computer Science, there are usually multiple ways to do things, so we should always be considering our tradeoffs for choosing one solution over another. It's okay to have suboptimal code at times. We just want to make sure it's from a conscious decision, not accidental.
+
+Another way of doing this would be to use `dequeue()`, built into Python, which is essentially a doubly linked list and allows us to maintain optimal time complexity. _(Pronounced "deck" not "de-queue")_
+
+Within the same directory, we have a file called `graph.py` with this code, that functions by importing the Queue and Stack utils:
+
+```
+class Graph:
+    """Represent a graph as a dictionary of vertices mapping labels to edges."""
+    def __init__(self):
+        self.vertices = {}
+    def add_vertex(self, vertex):
+        """
+        Add a vertex to the graph.
+        """
+        pass  # TODO
+    def add_edge(self, v1, v2):
+        """
+        Add a directed edge to the graph.
+        """
+        pass  # TODO
+    def bft(self, starting_vertex):
+        """
+        Print each vertex in breadth-first order
+        beginning from starting_vertex.
+        """
+        pass  # TODO
+    def dft(self, starting_vertex):
+        """
+        Print each vertex in depth-first order
+        beginning from starting_vertex.
+        """
+        pass  # TODO
+    def dft_recursive(self, starting_vertex):
+        """
+        Print each vertex in depth-first order
+        beginning from starting_vertex.
+        This should be done using recursion.
+        """
+        pass  # TODO
+    def bfs(self, starting_vertex, destination_vertex):
+        """
+        Return a list containing the shortest path from
+        starting_vertex to destination_vertex in
+        breath-first order.
+        """
+        pass  # TODO
+    def dfs(self, starting_vertex, destination_vertex):
+        """
+        Return a list containing a path from
+        starting_vertex to destination_vertex in
+        depth-first order.
+        """
+        pass  # TODO
+```
+
+First, let's tackle how to add a vertex by filling this code in:
+
+```
+    def add_vertex(self, vertex):
+        """
+        Add a vertex to the graph.
+        """
+        pass  # TODO
+```
+
+We're going to initialize an empty set that will represent our newly added vertex, but there are no edges yet to put into that set.
+
+```
+self.vertices[vertex] = set()
+```
+
+Next, we'll add a new directed edge to the graph:
+
+```
+    def add_edge(self, v1, v2):
+        """
+        Add a directed edge to the graph.
+        """
+        pass  # TODO
+```
+
+First, we want to check if the vertices both exist. If they do, we'll add to the set of vertex one, the reference to vertex two. If they do not both exist, we'll return an error message.
+
+```
+        if v1 in self.vertices and v2 in self.vertices:
+            self.vertices[v1].add(v2)
+        else:
+            raise IndexError("That vertex does not exist!")
+```
+
+Remember, it'll only add v2 to v1's set of edges because we cannot (and should not) assume that this graph is undirected (that each relationship goes both ways). An edge might exist one-directionally between to vertices.
+
+Below this Graph class, there is code that will add vertices and edges to our graph:
+
+```
+if __name__ == '__main__':
+    graph = Graph()
+    graph.add_vertex(1)
+    graph.add_vertex(2)
+    graph.add_vertex(3)
+    graph.add_vertex(4)
+    graph.add_vertex(5)
+    graph.add_vertex(6)
+    graph.add_vertex(7)
+    graph.add_edge(5, 3)
+    graph.add_edge(6, 3)
+    graph.add_edge(7, 1)
+    graph.add_edge(4, 7)
+    graph.add_edge(1, 2)
+    graph.add_edge(7, 6)
+    graph.add_edge(2, 4)
+    graph.add_edge(3, 5)
+    graph.add_edge(2, 3)
+    graph.add_edge(4, 6)
+```
+
+If we run `python3 graph.py` in our terminal, it will return:
+
+```
+{1: {2}, 2: {3, 4}, 3: {5}, 4: {6, 7}, 5: {3}, 6: {3}, 7: {1, 6}}
+None
+None
+```
+
+This prints out an Adjacency List of the created graph (and two test results).
+
+It should match the example graph below:
+
+![Example Graph](./img/example.png "Example Graph")
 
 
 
+#### Breadth-First Traversal
 
-BFS Steps:
+What is Breadth-First Traversal v Depth First Traversal?
+
+A tree is a directed, acyclic graph that start from a single root note, from which all other nodes descend.
+
+![Node Tree](./img/root_node.png "Node Tree")
+
+
+Often times we might use Traversal and Search interchangeably but a `traversal` means we start from a node and visit each node in an order. `Search` finds a path from one node to another specific node.
+
+With Breadth First Traversal, you'll start at the root node and visit each child node, then each grandchild node, and so on. You'll visit every node that is 1 link away first, then every node that is 2 links away, etc...
+
+Since graphs don't have any order, we could visit the above graph in the order `A, B, C` but equally acceptable would be `A, C, B`; or `A, C, B, E, G, D, F, H` or `A, B, C, D, E, F, G, H`. Order does not matter but distance from the node _does_. They must be traversed in order _by level_.
+
+Keeping this in mind, on non-tree graphs, there is no "first" or "root" node. _Any_ node can be treated as the first node. To keep things simple, we still often work with 1 first, but we could use 6 as an example.
+
+Because of this lack of order, we might refer to nodes as neighbors instead of children.
+
+Breadth First Search will always return the _shortest_ path to the node being found, because it searches level by level. 
+
+
+#### Depth First Search
+
+`Depth First Search` starts from a child and is called recursively on each child. Instead of going level by level, you might go `A, B, D` or `A, C, G, K`, traveling down the line of each child's child.
+
+If you were searching for a path from A to F, the search would go like this: `A, B, D, E, I, J, F`. It would travel down one line of children to the bottom level, then go down the next possible path from the lowest level branch, until it finds the match.
+
+You start from a node, mark it as visited, and then call Depth First Search on each of its children.
+
+Depth First Search will not always return the _shortest_ path, just a viable path.
+
+
+#### Implementing BFT
+
+Next, let's try to implement Breadth First Traversal (BFT).
+
+```
+    def bft(self, starting_vertex):
+        """
+        Print each vertex in breadth-first order
+        beginning from starting_vertex.
+        """
+        pass  # TODO
+```
+
+First, let's think about how we will go about solving this problem in pseudocode. This set of steps is what we should memorize for implementing BFT in any variation.
 
 ```
 # Create an empty set to store visited nodes
-    # Create an empty Queue and enqueue & PATH TO the starting vertex
-    # While the queue is not empty...
-        # Dequeue the first PATH
-        # GRAB THE VERTEX FROM THE END OF THE PATH
-        # IF VERTEX = TARGET, RETURN PATH
-        # If that vertex has not been visited...
-            # Mark it as visited
-            # Then add & PATH TO all of its neighbors to the back of the queue
-                # Copy the path
-                # Append neighbor to the back of the copy
-                # Enqueue copy
+# Create an empty Queue and enqueue the starting vertex
+# While the queue is not empty...
+    # Dequeue the first vertex from the queue
+    # If that vertex has not been visited...
+        # Mark it as visited
+        # Then add all of its neighbors to the back of the queue
 ```
 
-DFS Steps:
+Thinking about this from our graph:
+
+![Example Graph](./img/example2.png "Example Graph")
+
+As we step through, we'd create an empty set and the queue:
+
+```
+visited = {}
+queue = [1]
+```
+
+Since our queue is not empty, we will dequeue the first vertex from the queue (1):
+
+```
+v = 1
+```
+
+Has this been visited? If not, we mark it as visited.
+
+```
+if v not in visited:
+    visited = {1}
+```
+
+And then we need to add all of its neighbors into the queue:
+
+```
+queue = [2]
+```
+
+Now we loop and dequeue the starting node, mark it as visited and add its neighbors into the queue:
+
+```
+queue = []
+visited = [1, 2]
+queue = [4, 3]
+```
+
+And continue to repeat this process so long as the queue is not empty...
+
+```
+queue = [4, 3]
+queue = [3]
+visited = [1, 2, 4]
+queue = [3, 7, 6]
+
+queue = [7, 6]
+visited = [1, 2, 4, 3]
+queue = [7, 6, 5]
+
+queue = [6, 5]
+visited = [1, 2, 4, 3, 7]
+# We add 6 to the queue because it's a neighbor of 7
+queue = [6, 5, 6, 1]
+
+queue = [5, 6, 1]
+visited = [1, 2, 4, 3, 7, 6]
+queue = [5, 6, 1, 3]
+
+queue = [6, 1, 3]
+visited = [1, 2, 4, 3, 7, 6, 5]
+queue = [1, 3, 3]
+
+queue = [3, 3]
+# Because 1 has already been visited, we move on
+queue = [3]
+# Because 3 has already been visited we move on
+queue = []
+# Again, 3 was already visited, so we move on
+# Now the queue is empty so the loop ends
+```
+
+Having walked through how this psuedo-code would work, looking at the graph, the solution seems sound. So now we can write the code:
+
+```
+        # Create an empty set to store visited nodes
+        visited = set()
+        # Create an empty Queue and enqueue the starting vertex
+        q = Queue()
+        q.enqueue(starting_vertex)
+        # While the queue is not empty...
+        while q.size() > 0:
+            # Dequeue the first vertex from the queue
+            v = q.dequeue()
+            # If that vertex has not been visited...
+            if v not in visited:
+                # Mark it as visited
+                visited.add(v)
+                print(v)
+                # Then add all of its neighbors to the back of the queue
+                for neighbor in self.vertices[v]:
+                    q.enqueue(neighbor)
+```
+
+#### Implementing Depth First Traversal
+
+Let's make DFT work, starting with the pseudo-code. The main difference is that we'll use a stack instead of a queue.
+
+Stack is LIFO - Last In, First Out.
+Queue is FIFO - First In, First Out.
+
+A queue is like a line: the first person in line is the first person to get served.
+
+A stack is like a stack of pancakes: the last pancake was placed on top, but would be the first to get pulled off to get eaten.
+
+```
+        # Create an empty set to store visited nodes
+        # Create an empty Stack and push the starting vertex
+        # While the Stack is not empty...
+            # Pop the first vertex from the stack
+            # If that vertex has not been visited...
+                # Mark it as visited
+                # Then add all of its neighbors to the top of the Stack
+```
+
+Essentially, the only difference is that we changed from using a queue to a stack, to do Depth First instead of Breadth First.
+
+So remember:
+
+>DFT = LIFO = Stack = last in line, first served
+>
+>BFT = FIFO = Queue = first in line, first served
+
+Our code would simply change like so:
 
 ```
 # Create an empty set to store visited nodes
-    # Create an empty Queue and enqueue the starting vertex
-    # While the queue is not empty...
-        # Dequeue the first vertex
-        # If that vertex has not been visited...
-            # Mark it as visited
-            # Then add all of its neighbors to the back of the queue
+visited = set()
+# Create an empty Stack and push the starting vertex
+s = Stack()
+s.push(starting_vertex)
+# While the Stack is not empty...
+while s.size() > 0:
+    # Pop the first vertex from the stack
+    v = s.pop()
+    # If that vertex has not been visited...
+    if v not in visited:
+        # Mark it as visited
+        visited.add(v)
+        print(v)
+        # Then add all of its neighbors to the top of the Stack
+        for neighbor in self.vertices[v]:
+            s.push(neighbor)
 ```
 
+Let's walk through how this works with our graph as an example again:
+
+![Example Graph](./img/example2.png "Example Graph")
+
+We start with our visited as an empty set and put 1 into our stack:
+
+```
+visited = {}
+stack = []
+```
+
+Because 1 has not been visited, we add it to visited and then add it's neighbors to the Stack:
+
+```
+visited = {1}
+stack = [2]
+```
+
+2 also has not been visited, so we pop it off of the Stack, add it to visited, and then add its neighbors into the Stack:
+
+```
+visited = {1, 2}
+stack = [3,4]
+```
+
+Because we're popping off the next one (LIFO), we'll handle 4 next:
+
+```
+visited = {1, 2, 4}
+stack = [3, 6, 7]
+```
+
+And continue looping, so the process looks like...
+
+```
+visited = {1, 2, 4, 7}
+stack = [3, 6, 1, 6]
+
+visited = {1, 2, 4, 7, 6}
+stack = [3, 6, 1, 3]
+
+visited = {1, 2, 4, 7, 6, 3}
+stack = [3, 6, 1, 5]
+
+visited = {1, 2, 4, 7, 6, 3, 5}
+stack = [3, 6, 1, 3]
+
+# 3 has been visited so we don't add it to visited or its neighbors to the stack
+visited = {1, 2, 4, 7, 6, 3, 5}
+stack = [3, 6, 1]
+
+# 1 has also been visited, so we move on
+visited = {1, 2, 4, 7, 6, 3, 5}
+stack = [3, 6]
+
+# Same for 6
+visited = {1, 2, 4, 7, 6, 3, 5}
+stack = [3]
+
+# And 3 again
+visited = {1, 2, 4, 7, 6, 3, 5}
+stack = []
+# Now the stack is empty so the loop ends
+```
+
+Does it matter which node we start with? Yes, depending on the starting node, we'll receive a different return (or print) value.
+
+We can also implement this recursively, but we'll touch on that in the next lecture.
 
 
+#### Implementing Search
 
+A search is like a traversal, except you stop when you find the target node and return the path to that node.
+
+How can we implement this with our current algorithm?
+
+Instead of storing nodes, we want to store a _path_ to the node.
+
+
+```
+# Create an empty set to store visited nodes
+# Create an empty Queue and enqueue A PATH to the starting vertex
+# While the queue is not empty...
+    # Dequeue the first PATH
+    # Grab the vertex from the end of the path!
+    # IF VERTEX = TARGET
+        # Return path
+    # If that vertex has not been visited...
+        # Mark it as visited
+        # Then add A PATH TO all of its neighbors to the back of the queue
+            # Copy the path
+            # Append neighbor to the back of the copy
+            # Enqueue copy
+```
+
+How do we queue a path?
+
+We need a path from the starting node and to store it in a list:
+
+```
+q = [ [1] ]
+visited = {}
+```
+
+Now we dequeue this ([1]) and get our vertex by grabbing the last element of the path:
+
+```
+q = []
+visited = {}
+path = [1]
+v = path[-1] # which is 1
+```
+
+1 has not been visited so we need to enqueue a path to all of its neighbors:
+
+```
+path = [1]
+v = 1
+path_copy = [1]
+
+# Enqueue a path to 2
+path_copy = [1,2]
+
+# Enqueue this copy to the queue
+q = [ [1,2] ]
+visited = {}
+```
+
+Now we'll dequeue the next item in our queue and re-run the process:
+
+```
+q = []
+path = [1,2]
+
+# We take the LAST element of the path
+
+v = 2
+visited = {1, 2}
+
+# Make a copy of the path and enqueue a path to its neighbor
+path_copy = [1, 2, 3]
+
+# Enqueue the copy to the queue
+q = [ [1, 2, 3] ]
+
+# But there's another neighbor, 4 so...
+path_copy = [1, 2, 4]
+q = [ [1, 2, 3], [1, 2, 4] ]
+```
+
+This will continue to loop until we find our target node. Let's say our target is 4. 
+
+```
+q = [ [1, 2, 4] ]
+path = [1, 2, 3]
+v = 3
+visited = {1, 2, 3}
+path_copy = [1, 2, 3, 5]
+q = [ [1, 2, 4], [1, 2, 3, 5] ]
+
+q = [ [1, 2, 3, 5] ]
+path = [1, 2, 4]
+v = 4
+# TARGET FOUND
+return path
+```
+
+So this Breadth First Search will return `[1, 2, 4]`, which is the shortest path to our target.
+
+If we want to implement Depth First Search, it will be the same, except using a Stack instead of a Queue.
+
+<br>
+<br>
+<br>
+<br>
+<br>
 
 
 # Lecture II 
@@ -609,6 +1159,21 @@ It's still running quickly. The set allows us to check efficiently.
 So, overall, this ladder problem was just a path finding problem, perfecting for graphing.
 
 Today's assignment is solving the Earliest Ancestor code challenge.
+
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+
+# Lecture III: Random Social Network
+
+#### Pre-Class Resources
+
+[Graphs: Connected Components](#https://youtu.be/EsyLzGWlsA8)
+
+[Follow Along Lecture Repo](#https://github.com/LambdaSchool/Graphs/tree/master/objectives/randomness)
 
 
 
