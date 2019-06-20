@@ -1,6 +1,6 @@
 # Graphs
 
-#### Table of Contents
+## Table of Contents
 
 1. [Lecture I: Graphs Intro, Representation & BFS/DFS](#Lecture-I-Notes:-Graphs-Intro,-Representations-&-BFS/DFS)
     <br>a. [What are Graphs?](#What-are-Graphs?)
@@ -11,7 +11,7 @@
     <br>c. [How to Represent a Graph](#How-to-Represent-a-Graph)
     <br> - [Adjacency List](#Adjacency-List)
     <br> - [Adjacency Matrix](#Adjacency-Matrix)
-    <br> - [When do we use a list v a matrix?](#When-do-we-use-a-list-v-a-matrix?)
+    <br> - [When Do We Use a List v a Matrix?](#When-do-we-use-a-list-v-a-matrix?)
     <br>
     <br>d. [Space and Time Complexity](#Space-and-Time-Complexity)
     <br>e. [Queue and Stack](#Queue-and-Stack)
