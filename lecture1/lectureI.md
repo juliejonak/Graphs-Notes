@@ -51,13 +51,17 @@ The components that make up a graph are:
 
 <br>
 
+Maps, social media, the internet -- these are all commonly used graphs.
+
+<br>
+
 For example, cities could be vertices, with roads as the edges that connect all the cities. Not all edges are created equally so it may take more time or resources to go from one node to another.
 
-![Edges and Weights](./img/edges_weight.png "Edges and Weights")
+![Edges and Weights](../img/edges_weight.png "Edges and Weights")
 
 A real time application of adding weight to edges is showing a traffic map, where different colors correspond to higher or lower weights of traveling along the edges:
 
-![Weighted Map](./img/traffic.png "Weighted Map")
+![Weighted Map](../img/traffic.png "Weighted Map")
 
 In video games, different types of terrain often slow down or hinder character movement. That is another use case of edge weights.
 
@@ -84,14 +88,14 @@ Some social networks are considered directed, because you can follow someone on 
 
 - `Cyclic Graph`: edges allow you to revisit at least one vertex, like a graph demonstrating the water cycle. There are states that water can revisit multiple times.
 
-![Water Cycle Graph](./img/water_cycle.jpg "Water Cycle Graph")
+![Water Cycle Graph](../img/water_cycle.jpg "Water Cycle Graph")
 
 <br>
 
 
 - `Acyclic Graph`: vertices can only be visited once. A recipe turned into a graph might be acyclic because some steps should only be done _once_. Or the lifespan of an animal -- each stage of life only occurs once.
 
-![Butterfly Life Cycle](./img/butterfly.jpg "Butterfly Life Cycle")
+![Butterfly Life Cycle](../img/butterfly.jpg "Butterfly Life Cycle")
 
 The relationship between two nodes might be acyclic, but if within the entire graph there exists even one cyclical relationship between nodes, then it is a cyclic graph.
 
@@ -103,14 +107,14 @@ If there are no weights on the edges, it's considered an `Unweighted Graph`.
 
 `Dense` graphs means that for the number of nodes that exist, there are a high number of edges -- like a flight hub map:
 
-![Flight Hub Map](./img/flights.png "Flight Hub Map")
+![Flight Hub Map](../img/flights.png "Flight Hub Map")
 
 <br>
 
 
 A `sparse` graph has a lower ratio of nodes to edges, like a subway map:
 
-![Subway Map](./img/subway.jpg "Subway Map")
+![Subway Map](../img/subway.jpg "Subway Map")
 
 <br>
 
@@ -196,9 +200,9 @@ Short answer: yes.
 
 There are several ways to represent graphs:
 
-##### Adjacency List
+### Adjacency List
 
-![Adjacency List](./img/adjacency_list.png "Adjacency List")
+![Adjacency List](../img/adjacency_list.png "Adjacency List")
 
 Looking at the above graph, we can see that it is a directed, unweighted, cyclical graph.
 
@@ -213,11 +217,11 @@ If it were an undirected graph, we would need to list each edge twice, to repres
 <br>
 <br>
 
-##### Adjacency Matrix
+### Adjacency Matrix
 
 This is a chart that holds one column and one row for each vertex on the graph.
 
-![Adjacency Matrix](./img/adjacency_matrix.png "Adjacency Matrix")
+![Adjacency Matrix](../img/adjacency_matrix.png "Adjacency Matrix")
 
 If there is a 0, that means there is no edge between the two vertices; if there is a 1, then they do have a shared edge.
 
@@ -228,7 +232,7 @@ Currently the 0 represents no edge, and 1 indicates an edge exists, but with no 
 <br>
 <br>
 
-##### When do we use a list v a matrix?
+### When do we use a list v a matrix?
 
 We need to consider both our time and space complexity when deciding.
 
@@ -240,7 +244,7 @@ What are the drawbacks? Sets cannot have duplicates and are unordered (you're no
 
 With binary trees, order mattered. But with graphs, there is no "first", just references to the directions, so it's fine to use a set for representation because we don't care about order.
 
-The time complexity of seeing if something is in a set is `O(1)` vs if it's in a list is `O(n)` time. A sorted list is `O(log n)` but that's still slower than O(1).
+The time complexity of seeing if something is in a set is `O(1)` vs if it's in a list is `O(n)` time. A sorted list is `O(log n)` but that's still slower than `O(1)`.
 
 Sets use extra space because they store both a value _and_ a pointer, which means they take up more space in memory.
 
@@ -256,7 +260,11 @@ A sparse graph is better for an adjacency list.
 
 We also want to consider how often data changes when deciding between a list v matrix, given the time complexity of adding/removing vertices.
 
-For now, we'll be focusing on adjacency lists mostly on this sprint.
+But remember, sifting through a matrix is `O(n^2)` time complexity because it requires going row by row, and then column by column.
+
+<br>
+
+For now, we'll be focusing on adjacency lists mostly on this sprint because it's easier for our time constraints and is most readable.
 
 <br>
 <br>
@@ -346,7 +354,7 @@ This is clearly more efficiently done with an adjacency list instead of an adjac
 
 ##### Queue and Stack
 
-In our [project for this Sprint](https://github.com/LambdaSchool/Graphs), within the Projects --> graphs --> Util.py file, there are two pre-defined classes: Queue() and Stack()
+In our [project for this Sprint](https://github.com/LambdaSchool/Graphs), within the Projects --> graphs --> Util.py file, there are two pre-defined classes: `Queue()` and `Stack()`
 
 <br>
 
@@ -547,7 +555,7 @@ This prints out an Adjacency List of the created graph (and two test results).
 
 It should match the example graph below:
 
-![Example Graph](./img/example.png "Example Graph")
+![Example Graph](../img/example.png "Example Graph")
 
 
 <br>
@@ -560,7 +568,7 @@ What is Breadth-First Traversal v Depth First Traversal?
 
 A tree is a directed, acyclic graph that start from a single root note, from which all other nodes descend.
 
-![Node Tree](./img/root_node.png "Node Tree")
+![Node Tree](../img/root_node.png "Node Tree")
 
 
 <br>
@@ -594,6 +602,8 @@ If you were searching for a path from A to F, the search would go like this: `A,
 You start from a node, mark it as visited, and then call Depth First Search on each of its children.
 
 Depth First Search will not always return the _shortest_ path, just a viable path.
+
+It's important to remember that when iterating through an object or list, order is not guaranteed -- which means it can be difficult to reproduce results using DFS, because the starting node could be different each time it's run. In that vein, writing tests for DFS can be tricky because it requires accounting for all possible correct answers because there is not one _single_ right answer, and we may find that colleagues who solve the same problem find a different (but equally correct) answer.
 
 
 <br>
@@ -634,7 +644,7 @@ First, let's think about how we will go about solving this problem in pseudocode
 
 Thinking about this from our graph:
 
-![Example Graph](./img/example2.png "Example Graph")
+![Example Graph](../img/example2.png "Example Graph")
 
 <br>
 
@@ -821,7 +831,7 @@ while s.size() > 0:
 
 Let's walk through how this works with our graph as an example again:
 
-![Example Graph](./img/example2.png "Example Graph")
+![Example Graph](../img/example2.png "Example Graph")
 
 We start with our visited as an empty set and put 1 into our stack:
 
