@@ -1,5 +1,5 @@
 3. [Lecture III: Random Social Network](#Lecture-III:-Random-Social-Network)
-    <br>a. [Pre-Class Resources]](#Pre-Class-Resources)
+    <br>a. [Pre-Class Resources](#Pre-Class-Resources)
     <br>b. []()
     <br>c. []()
     <br>
