@@ -32,7 +32,8 @@
 
 [Article: A Gentle Introduction to Graph Theory](https://medium.com/basecs/a-gentle-introduction-to-graph-theory-77969829ead8)
 
-[CS18 Lecture Recording](https://youtu.be/QZlXUo-ovBs)
+[CS18 Lecture Recording: Brady Fukumoto](https://youtu.be/QZlXUo-ovBs)
+[CS19 Lecture Recording: Brian Doyle](https://youtu.be/3aGdP0QgZjg)
 
 <br>
 <br>
