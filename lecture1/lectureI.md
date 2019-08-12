@@ -491,7 +491,7 @@ Sets are not accessible by index because sets are like a dictionary that contain
 <br>
 
 ```
-if self.vertices[vertex] is not None:
+if not vertex in self.vertices:
     self.vertices[vertex] = set()
 else:
     print("Warning: vertex exists.")
@@ -769,23 +769,27 @@ Having walked through how this psuedo-code would work, looking at the graph, the
 <br>
 
 ```
-        # Create an empty set to store visited nodes
-        visited = set()
-        # Create an empty Queue and enqueue the starting vertex
-        q = Queue()
-        q.enqueue(starting_vertex)
-        # While the queue is not empty...
-        while q.size() > 0:
-            # Dequeue the first vertex from the queue
-            v = q.dequeue()
-            # If that vertex has not been visited...
-            if v not in visited:
-                # Mark it as visited
-                visited.add(v)
-                print(v)
-                # Then add all of its neighbors to the back of the queue
-                for neighbor in self.vertices[v]:
-                    q.enqueue(neighbor)
+# Create an empty set to store visited nodes
+visited = set()
+
+# Create an empty Queue and enqueue the starting vertex
+q = Queue()
+q.enqueue(starting_vertex)
+
+# While the queue is not empty...
+while q.size() > 0:
+    # Dequeue the first vertex from the queue
+    vertex = q.dequeue()
+
+    # If that vertex has not been visited...
+    if vertex not in visited:
+
+        # Mark it as visited
+        visited.add(vertex)
+
+        # Then add all of its neighbors to the back of the queue
+        for neighbor in self.vertices[v]:
+            q.enqueue(neighbor)
 ```
 
 <br>
@@ -833,20 +837,25 @@ Our code would simply change like so:
 ```
 # Create an empty set to store visited nodes
 visited = set()
+
 # Create an empty Stack and push the starting vertex
 s = Stack()
 s.push(starting_vertex)
+
 # While the Stack is not empty...
 while s.size() > 0:
+
     # Pop the first vertex from the stack
-    v = s.pop()
+    vertex = s.pop()
+
     # If that vertex has not been visited...
-    if v not in visited:
+    if vertex not in visited:
+
         # Mark it as visited
-        visited.add(v)
-        print(v)
+        visited.add(vertex)
+
         # Then add all of its neighbors to the top of the Stack
-        for neighbor in self.vertices[v]:
+        for neighbor in self.vertices[vertex]:
             s.push(neighbor)
 ```
 
@@ -958,15 +967,21 @@ Instead of storing nodes, we want to store a _path_ to the node.
 
 ```
 # Create an empty set to store visited nodes
+
 # Create an empty Queue and enqueue A PATH to the starting vertex
+
 # While the queue is not empty...
+
     # Dequeue the first PATH
     # Grab the vertex from the end of the path!
+
     # IF VERTEX = TARGET
         # Return path
+
     # If that vertex has not been visited...
         # Mark it as visited
         # Then add A PATH TO all of its neighbors to the back of the queue
+        
             # Copy the path
             # Append neighbor to the back of the copy
             # Enqueue copy
