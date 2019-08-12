@@ -37,7 +37,7 @@
 <br>
 <br>
 
-#### What are Graphs?
+## What are Graphs?
 
 Graphs are a generalized data structure that represent relationships between data like linked lists or a binary tree. Anything you can do in those data structures, you can do in a graph.
 
@@ -130,7 +130,7 @@ _Further reading: Introduction to DAGs and How They Differ From Blockchains: htt
 <br>
 
 
-#### What will we be learning?
+## What will we be learning?
 
 We'll work with traversals and searches - breadth first search v depth first search. These are two search types that _should_ be memorized in their most basic form; but depending on your graph implementation and data, those searches will need to be adjusted and tweaked.
 
@@ -154,7 +154,7 @@ When drawing out graphs, be sure to be specific with your arrows to properly vis
 <br>
 <br>
 
-#### But seriously, do graphs matter?
+### But seriously, do graphs matter?
 
 From Steve Yegge's article on [Get That Job At Google](https://steve-yegge.blogspot.com/2008/03/get-that-job-at-google.html):
 
@@ -269,7 +269,7 @@ For now, we'll be focusing on adjacency lists mostly on this sprint because it's
 <br>
 <br>
 
-##### Space and Time Complexity
+### Space and Time Complexity
 
 Assuming `n` = total number of vertices in the graph, `E` = total number of edges in the graph, and `e` is the total number of edges per vertex....   
 
@@ -352,7 +352,7 @@ This is clearly more efficiently done with an adjacency list instead of an adjac
 <br>
 <br>
 
-##### Queue and Stack
+## Queue and Stack
 
 In our [project for this Sprint](https://github.com/LambdaSchool/Graphs), within the Projects --> graphs --> Util.py file, there are two pre-defined classes: `Queue()` and `Stack()`
 
@@ -583,7 +583,7 @@ It should match the example graph below:
 <br>
 
 
-#### Breadth-First Traversal
+## Breadth-First Traversal
 
 What is Breadth-First Traversal v Depth First Traversal?
 
@@ -614,7 +614,7 @@ Breadth First Search will always return the _shortest_ path to the node being fo
 <br>
 <br>
 
-#### Depth First Search
+## Depth First Search
 
 `Depth First Search` starts from a child and is called recursively on each child. Instead of going level by level, you might go `A, B, D` or `A, C, G, K`, traveling down the line of each child's child.
 
@@ -632,7 +632,7 @@ It's important to remember that when iterating through an object or list, order 
 <br>
 <br>
 
-#### Implementing BFT
+## Implementing BFT
 
 Next, let's try to implement Breadth First Traversal (BFT).
 
@@ -795,7 +795,7 @@ while q.size() > 0:
 <br>
 <br>
 
-#### Implementing Depth First Traversal
+## Implementing Depth First Traversal
 
 Let's make DFT work, starting with the pseudo-code. The main difference is that we'll use a stack instead of a queue.
 
@@ -954,7 +954,11 @@ We can also implement this recursively, but we'll touch on that in the next lect
 <br>
 <br>
 
-#### Implementing Search
+## Implementing Search
+
+_Note: CS18 Lecture I goes into Search Implementation but CS19 does not touch on this until Lecture II_
+
+<br>
 
 A search is like a traversal, except you stop when you find the target node and return the path to that node.
 
