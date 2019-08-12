@@ -390,11 +390,19 @@ class Stack():
 
 What is sub-optimal about this queue?
 
-It uses an array, specifically `pop(0)` that causes our entire array to shift over one, leading to an O(n) run time.
+It uses an array, specifically `pop(0)` that causes our entire array to shift over one, leading to an `O(n)` run time.
+
+We could instead increment the index of the "next" item if we don't care about space; or use a linked list; or add to the end of the array to make this more efficient (but then our additions are at the front of the array which runs into the same time complexity when we add to our queue).
 
 But in this scenario, why are we okay with it?
 
-We're using a small data set so this drawback doesn't affect our actual runtime.
+We're using a small data set so this drawback doesn't affect our actual runtime. If our data set grows, we can go back and adjust.
+
+<br>
+
+Why aren't queues and linked lists implemented natively in Python?
+
+Unsure but Python does offer [collections](https://docs.python.org/2/library/collections.html#collections.deque) which are double ended queues that offer roughly `O(1)` performance running in either direction.
 
 <br>
 
@@ -474,13 +482,24 @@ First, let's tackle how to add a vertex by filling this code in:
 
 We're going to initialize an empty set that will represent our newly added vertex, but there are no edges yet to put into that set.
 
+We need to know what kind of identifier it will have -- is it an integer, name, string?
+
+Our vertices are stored in a dictionary, and each vertex needs an identifier that when called upon in the dictionary, has a list of edges. Because we don't want the list to hold duplicates, we should use a set.
+
+Sets are not accessible by index because sets are like a dictionary that contain keys but no values. Indices are found using a hash function. Sets are efficient but have drawbacks.
+
 <br>
 
 ```
-self.vertices[vertex] = set()
+if self.vertices[vertex] is not None:
+    self.vertices[vertex] = set()
+else:
+    print("Warning: vertex exists.")
 ```
 
 <br>
+
+This throws a warning to let the developer/user know that edge is already listed (even though a set won't add a duplicate -- this is user friendly practice).
 
 Next, we'll add a new directed edge to the graph:
 
@@ -501,15 +520,17 @@ First, we want to check if the vertices both exist. If they do, we'll add to the
 <br>
 
 ```
-        if v1 in self.vertices and v2 in self.vertices:
-            self.vertices[v1].add(v2)
-        else:
-            raise IndexError("That vertex does not exist!")
+if v1 in self.vertices and v2 in self.vertices:
+    self.vertices[v1].add(v2)
+else:
+    raise IndexError("That vertex does not exist!")
 ```
 
 <br>
 
-Remember, it'll only add v2 to v1's set of edges because we cannot (and should not) assume that this graph is undirected (that each relationship goes both ways). An edge might exist one-directionally between to vertices.
+Remember, right now we're only adding v2 to v1's set of edges because we cannot (and should not) assume that this graph is undirected (that each relationship goes both ways). An edge might exist one-directionally between to vertices.
+
+A better user experience might be to change the variable names from v1 and v2 to something more explicit that explains the direction, like vertex_from and vertex_to.
 
 Below this Graph class, there is code that will add vertices and edges to our graph:
 
@@ -602,6 +623,8 @@ If you were searching for a path from A to F, the search would go like this: `A,
 You start from a node, mark it as visited, and then call Depth First Search on each of its children.
 
 Depth First Search will not always return the _shortest_ path, just a viable path.
+
+<br>
 
 It's important to remember that when iterating through an object or list, order is not guaranteed -- which means it can be difficult to reproduce results using DFS, because the starting node could be different each time it's run. In that vein, writing tests for DFS can be tricky because it requires accounting for all possible correct answers because there is not one _single_ right answer, and we may find that colleagues who solve the same problem find a different (but equally correct) answer.
 
