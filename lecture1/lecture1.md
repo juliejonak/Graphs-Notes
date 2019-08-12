@@ -1,5 +1,5 @@
 1. [Lecture I: Graphs Intro, Representation & BFS/DFS](#Lecture-I-Notes:-Graphs-Intro,-Representations-&-BFS/DFS)
-    <br>a. [What are Graphs?](#What-are-Graphs?)
+    <br>a. [What are Graphs?](#What-are-Graphs)
         <br> - [Graph Types and Terms](#Graph-Types-and-Terms)
         <br>
     <br>b. [What will we be learning?](#What-will-we-be-learning?)
@@ -32,13 +32,14 @@
 
 [Article: A Gentle Introduction to Graph Theory](https://medium.com/basecs/a-gentle-introduction-to-graph-theory-77969829ead8)
 
-[CS18 Lecture Recording: Brady Fukumoto](https://youtu.be/QZlXUo-ovBs)
+[CS18 Lecture Recording: Brady Fukumoto](https://youtu.be/QZlXUo-ovBs)  
+
 [CS19 Lecture Recording: Brian Doyle](https://youtu.be/3aGdP0QgZjg)
 
 <br>
 <br>
 
-## What are Graphs?
+## What are Graphs
 
 Graphs are a generalized data structure that represent relationships between data like linked lists or a binary tree. Anything you can do in those data structures, you can do in a graph.
 
