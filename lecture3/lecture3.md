@@ -98,7 +98,7 @@ for userID in self.users:
     for friendID in range(userID + 1, self.lastID + 1):
 
         # this creates a list of all possible friendships without duplicates
-        possibleFriendships.append(userID, friendID)
+        possibleFriendships.append((userID, friendID))
 
         # we can see how many this is by printing the length
         print(len(possibleFriendships))
@@ -147,7 +147,7 @@ An alternate way that could be written is like so:
 <br>
 
 ```
-for i in range(0, math.floor((numUsers * avgFriendships)//2):
+for i in range(0, math.floor((numUsers * avgFriendships)//2)):
     friendship = possibleFriendships[i]
     self.addFriendship(friendship[0], friendship[1])
 ```
