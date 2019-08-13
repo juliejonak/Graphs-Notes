@@ -10,7 +10,7 @@
 
 [CS18 Lecture II Recording: Brady Fukumoto](https://www.youtube.com/watch?v=Yi7V4AzhFPc)  
 
-[CS19 Lecture II Recording: Brian Doyle]()
+[CS19 Lecture II Recording: Brian Doyle](https://youtu.be/FmTfZCq4-L0)
 
 <br>
 
@@ -607,7 +607,9 @@ Since 3 is our target, we return the path. It's not the shortest but that's how 
 
 ## Let's try an example problem
 
-_ In CS19, Brian Doyle skips this and moves on to Lecture III's Social Graph problem. In CS18, Brady Fukumoto continues with the following._
+_ In CS19, Brian Doyle skips this and moves on to Lecture III's Social Graph problem. In CS18, Brady Fukumoto continues with the following.
+
+To follow along with CS19, go to the first 2 sections of Lecture III Notes._
 
 Using Leet Code's Word Ladder problem (https://leetcode.com/problems/word-ladder/)
 
