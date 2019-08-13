@@ -83,14 +83,14 @@ class SocialGraph:
             for friendID in range(userID + 1, self.lastID + 1):
                 # this creates a list of all possible friendships without duplicates
                 # these are tuples of two people who could be friends
-                possibleFriendships.append(userID, friendID)
+                possibleFriendships.append((userID, friendID))
                 # we can see how many this is by printing the length
                 print(len(possibleFriendships))
         
         # let's randomize this list. random.shuffle() randomizes the list and returns None
         random.shuffle(possibleFriendships)
 
-        for i in range(0, math.floor((numUsers * avgFriendships)//2):
+        for i in range(0, math.floor((numUsers * avgFriendships)//2)):
         friendship = possibleFriendships[i]
         # grabs person 1 and person 2 of the possible friendship tuples
         self.addFriendship(friendship[0], friendship[1])
