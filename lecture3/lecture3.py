@@ -109,26 +109,7 @@ class SocialGraph:
         # This results in roughly 2 average friendships per user, even though the friendships are randomly assigned (so some will have 3 or 4, and others only 1 or 2)
 
 def populateGraphLinear(self, numUsers, avgFriendships):
-    # reset graph
-    self.lastID = 0
-    self.users = {}
-    self.friendships = {}
-
-    for i in range(numUsers):
-        self.addUser(f'User {i +1}')
-
-    targetFriendships = numUsers * avgFriendships
-    totalFriendships = 0
-    # A collision is a failed friendship - trying to create one with yourself or one that already exists
-    collisions = 0
-    while totalFriendships < targetFriendships:
-        userID = random.randint(1, self.lastID)
-        friendID = random.randint(1, self.lastID)
-        if self.addFriendship(userID, friendID):
-            totalFriendships += 2
-        else:
-            collisions += 1
-    print(f"Collisions: {collisions}")
+    pass
         
 
     def getAllSocialPaths(self, userID):
@@ -140,23 +121,7 @@ def populateGraphLinear(self, numUsers, avgFriendships):
 
         The key is the friend's ID and the value is the path.
         """
-        visited = {}  # Note that this is a dictionary, not a set
-        # Create empty queue
-        q = Queue()
-        q.enqueue( [userID] )
-        while q.size() > 0:
-            path = q.dequeue()
-            v = path[-1]
-            # Check if visited
-            if v not in visited:
-                # Store the social path in the visited dictionary
-                visited[v] = path
-                # Friendships is our edges adjacency list
-                for neighbor in self.friendships[v]
-                    path_copy = list[path]
-                    path_copy.append(neighbor)
-                    q.enqueue(path_copy)
-        return visited
+        pass
 
 
 if __name__ == '__main__':
