@@ -90,21 +90,21 @@ class SocialGraph:
         # let's randomize this list. random.shuffle() randomizes the list and returns None
         random.shuffle(possibleFriendships)
 
-        # Now we need to actually create users and assign them friendships at random
-        # random.sample(list, k) chooses k unique elements from list
-        friendshipsToCreate = random.sample(possibleFriendships, (numUsers * avgFriendships) // 2)
-        print(friendshipsToCreate)
+        for i in range(0, math.floor((numUsers * avgFriendships)//2):
+        friendship = possibleFriendships[i]
+        # grabs person 1 and person 2 of the possible friendship tuples
+        self.addFriendship(friendship[0], friendship[1])
 
-        # loop through possible friends and create the friendships
-        for friendship in friendshipsToCreate:
-            # grabs person 1 and person 2 of the possible friendship tuples
-            self.addFriendship(friendship[0], friendship[1])
-        
         # alternate way to write it:
 
-        # for i in range(0, math.floor((numUsers * avgFriendships)//2):
-        #     friendship = possibleFriendships[i]
-        #     self.addFriendship(friendship[0], friendship[1])
+        # Now we need to actually create users and assign them friendships at random
+        # random.sample(list, k) chooses k unique elements from list
+        # friendshipsToCreate = random.sample(possibleFriendships, (numUsers * avgFriendships) // 2)
+
+        # loop through possible friends and create the friendships
+        # for friendship in friendshipsToCreate:
+            # grabs person 1 and person 2 of the possible friendship tuples
+            # self.addFriendship(friendship[0], friendship[1])
 
         # This results in roughly 2 average friendships per user, even though the friendships are randomly assigned (so some will have 3 or 4, and others only 1 or 2)
 
