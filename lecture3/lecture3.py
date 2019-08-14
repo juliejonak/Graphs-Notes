@@ -108,10 +108,6 @@ class SocialGraph:
 
         # This results in roughly 2 average friendships per user, even though the friendships are randomly assigned (so some will have 3 or 4, and others only 1 or 2)
 
-def populateGraphLinear(self, numUsers, avgFriendships):
-    pass
-        
-
     def getAllSocialPaths(self, userID):
         """
         Takes a user's userID as an argument
@@ -121,7 +117,24 @@ def populateGraphLinear(self, numUsers, avgFriendships):
 
         The key is the friend's ID and the value is the path.
         """
-        pass
+        visited = {}
+
+        q = Queue()
+        q.enqueue( [userID] )
+
+        while q.sizze() > 0:
+            path = q.dequeue()
+            newUserID = path[-1]
+
+            if newUserID not in visited:
+                visited[newUserID] = path
+
+                for friendID in self.friendships[newUserID]:
+                    if friendID not in visited:
+                        new_path = list(path)
+                        new_path.append(friendID)
+                        q.enqueue(new_path)
+
 
 
 if __name__ == '__main__':

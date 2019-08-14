@@ -124,7 +124,7 @@ class Graph:
         """
         Return a list containing the shortest path from
         starting_vertex to destination_vertex in
-        breath-first order.
+        breadth-first order.
         """
         #Create an empty list to store the visited vertices
         visited = []

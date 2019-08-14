@@ -16,6 +16,12 @@
 
 [Follow Along Lecture Repo](#https://github.com/LambdaSchool/Graphs/tree/master/objectives/randomness)
 
+[CS18 Social Network: Brady Fukumoto]()  
+
+[CS19 Social Networks: Brian Doyle]()  
+
+<br>
+
 
 ## Social Connections
 
@@ -167,3 +173,134 @@ def __repr__(self):
 
 <br>
 <br>
+
+## Get Social Paths
+
+Given a userID, how can we find their extended friend network and the average degree of separation between them and their extended network?
+
+We want to return a dictionary that contains the shortest path to each friend in their extended network. We are returning our connected componenets by seeking out the network of one user, that may show any isolated networks within the social graph.
+
+When we hear _shortest path_, we know that we need to use BFS.
+
+Using a dictionary, we can store the visited user as the key and the shortest path to them as the value.
+
+First we need a queue, so let's grab the code and add it in (or import it, ideally).
+
+<br>
+
+```
+class Queue():
+    def __init__(self):
+        self.queue = []
+    def enqueue(self, value):
+        self.queue.append(value)
+    def dequeue(self):
+        if self.size() > 0:
+            return self.queue.pop(0)
+        else:
+            return None
+    def size(self):
+        return len(self.queue)
+```
+
+<br>
+
+Our starting code looks like:
+
+<br>
+
+```
+def getAllSocialPaths(self, userID):
+    """
+    Takes a user's userID as an argument
+
+    Returns a dictionary containing every user in that user's
+    extended network with the shortest friendship path between them.
+
+    The key is the friend's ID and the value is the path.
+    """
+    visited = {}
+
+    q = Queue()
+    q.enqueue( [userID] )
+```
+
+<br>
+
+Next, we need to add the BFS. It can be helpful to drop in the pseudocode outline to help fill it in, keeping in mind that we're working with a dictionary instead of a list.
+
+While the queue is not empty, we'll dequeue the last item from the queue as the path. If that new user is not in visited, we'll set it as a key with the value set to the current path.
+
+Next, we'll loop through the friends for that ID in self.friendships, checking if those IDs are already in visited. If it is not, we'll create a copy of the path, append that friendID to the path, and then enqueue the new path.
+
+<br>
+
+```
+while q.sizze() > 0:
+    path = q.dequeue()
+    newUserID = path[-1]
+
+    if newUserID not in visited:
+        visited[newUserID] = path
+
+        for friendID in self.friendships[newUserID]:
+            if friendID not in visited:
+                new_path = list(path)
+                new_path.append(friendID)
+                q.enqueue(new_path)
+```
+
+<br>
+
+
+Now our dictionary is filling with the extended network and associated paths.
+
+<br>
+
+To create 100 users with an average of 10 friends each, how many times would you need to call `addFriendship()`? Why?
+
+We could add a debug counter to check. It should run 500 times. 
+
+>> (100 users * 10 average friendships) // 2 = 500  
+
+...which is the number of times the current solution calls addFriendship out of the possible pool of friendships.
+
+<br>
+
+If you create 1000 users with an average of 5 random friends each, what percentage of other users will be in a particular user's extended social network? What is the average degree of separation between a user and those in his/her extended network?
+
+Again, we could add some debugging print statements and counters to check this:
+
+<br>
+
+```
+debug_friendship = 0
+for key in visited:
+    debug_friendship += len(visited[key])
+
+return f"Average degree of separation: {debug_friendship // len(visited)}. Number in extended network: {len(visited)}"
+```
+
+<br>
+
+The length of visited tells us how many friends are in the user's extended network, which comes out to be 990+ each time, and the degree of separation is the length of each path to each extended friend, in total, divided by the number of friends in the extended network.
+
+>> Average degree of separation: 5415 // 993 = 5. Number in extended network: 993
+>>
+>> Average degree of separation: 5521 // 993 = 5. Number in extended network: 993
+>>
+>> Average degree of separation: 6324 // 994 = 6. Number in extended network: 994
+>>
+>> Average degree of separation: 5115 // 990 = 5. Number in extended network: 990
+>>
+
+If we run this a few times, we see that the number of people in the extended network is always above 990 (99%) and the average degree of separation tends to be 5. Of course, because of the randomization of data, this will vary.
+
+
+
+
+
+
+
+
+
