@@ -1,4 +1,4 @@
-3. [Lecture III: Random Social Network](#Lecture-III:-Random-Social-Network)
+3. [Lecture III: Random Social Network](#Lecture-III-Random-Social-Network)  
     <br>a. [Pre-Class Resources](#Pre-Class-Resources)  
     <br>b. [Social Connections](#Social-Connections)  
     <br>c. [Populate Graph](#Populate-Graph)  
@@ -7,15 +7,15 @@
     <br>
 <br>
 
-# Lecture III: Random Social Network
+# Lecture III Random Social Network
 
 _Note: these notes do not follow the CS18 lecture but instead, the CS19 lecture._
 
 ## Pre-Class Resources
 
-[Graphs: Connected Components](#https://youtu.be/EsyLzGWlsA8)
+[Graphs: Connected Components](https://youtu.be/EsyLzGWlsA8)  
 
-[Follow Along Lecture Repo](#https://github.com/LambdaSchool/Graphs/tree/master/objectives/randomness)
+[Follow Along Lecture Repo](https://github.com/LambdaSchool/Graphs/tree/master/objectives/randomness)  
 
 [CS18 Earliest Ancestor, Island Matrix: Brady Fukumoto](https://www.youtube.com/watch?v=RPWUmNEOxpk)  
 
