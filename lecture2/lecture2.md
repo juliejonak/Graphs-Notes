@@ -1,8 +1,12 @@
 2. [Lecture II: Applied Graph Search](#Lecture-II)
-    <br>a. [When do you use BFS over DFS?](#When-do-you-use-BFS-over-DFS?)
-    <br>b. [Breadth First Search](#Breadth-First-Search)  
-    <br>c. [Why can we use DFS recursively?](#Why-can-we-do-DFS-recursively-but-not-really-BFS?)
-    <br> d. [Example Code Challenge](#Let's-try-an-example-problem)
+    <br>a. [Update to DFT](#Update-to-DFT)  
+    <br> b. [Implementing Search](#Implementing-Search)  
+    <br> c. [Breadth-First Search](#Breadth-First-Search)  
+    <br> d. [When do you use BFS over DFS?](#When-do-you-use-BFS-over-DFS?)
+    <br>e. [DFS Iteratively](#DFS-Iteratively)  
+    <br> f. [DFS Recursively](#DFS-Recursively)  
+    <br>f. [Why can we use DFS recursively?](#Why-can-we-do-DFS-recursively-but-not-really-BFS?)
+    <br> g. [Example Code Challenge](#Let's-try-an-example-problem)
     <br>
     <br>
 

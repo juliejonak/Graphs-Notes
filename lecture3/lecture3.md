@@ -1,11 +1,10 @@
 3. [Lecture III: Random Social Network](#Lecture-III:-Random-Social-Network)
-    <br>a. [Pre-Class Resources](#Pre-Class-Resources)
-    <br>b. []()
-    <br>c. []()
+    <br>a. [Pre-Class Resources](#Pre-Class-Resources)  
+    <br>b. [Social Connections](#Social-Connections)  
+    <br>c. [Populate Graph](#Populate-Graph)  
+    <br>d. [Get Social Paths](#Get-Social-Paths)  
+    <br>e. [Islands Algorithm](#Islands-Algorithm)   
     <br>
-
-
-<br>
 <br>
 
 # Lecture III: Random Social Network
@@ -20,14 +19,14 @@ _Note: these notes do not follow the CS18 lecture but instead, the CS19 lecture.
 
 [CS18 Earliest Ancestor, Island Matrix: Brady Fukumoto](https://www.youtube.com/watch?v=RPWUmNEOxpk)  
 
-[CS19 Social Networks: Brian Doyle]()  
+[CS19 Social Networks: Brian Doyle](https://youtu.be/U63YYzPAuKM)  
 
 <br>
 
 
 ## Social Connections
 
-_ CS19 Brian Doyle covers this at the end of Lecture II, while CS18 Brady Fukumoto covers this in Lecture III_
+_CS19 Brian Doyle covers this at the end of Lecture II, while CS18 Brady Fukumoto covers this in Lecture IV_
 
 We're tasked with building a bi-directional graph full of the connections between people, to determine the degrees of separation.
 
@@ -39,7 +38,9 @@ A `connected component` is a set of nodes that are all connected to one another 
 
 ![Connected Components](../img/connected_components.png "Connected Components")
 
-Sometimes we'll need to find the sets that are connected components.
+<br>
+
+Sometimes we'll need to find the sets of data that are connected components.
 
 <br>
 
@@ -263,7 +264,7 @@ To create 100 users with an average of 10 friends each, how many times would you
 
 We could add a debug counter to check. It should run 500 times. 
 
->> (100 users * 10 average friendships) // 2 = 500  
+> (100 users * 10 average friendships) // 2 = 500  
 
 ...which is the number of times the current solution calls addFriendship out of the possible pool of friendships.
 
@@ -287,14 +288,14 @@ return f"Average degree of separation: {debug_friendship - 1 // len(visited)}. N
 
 The length of visited tells us how many friends are in the user's extended network, which comes out to be 990+ each time, and the degree of separation is the length of each path to each extended friend, in total, divided by the number of friends in the extended network (minus themselves).
 
->> Average degree of separation: 5415 // 993 = 5. Number in extended network: 993
->>
->> Average degree of separation: 5521 // 993 = 5. Number in extended network: 993
->>
->> Average degree of separation: 6324 // 994 = 6. Number in extended network: 994
->>
->> Average degree of separation: 5115 // 990 = 5. Number in extended network: 990
->>
+> Average degree of separation: 5415 // 993 = 5. Number in extended network: 993
+>
+> Average degree of separation: 5521 // 993 = 5. Number in extended network: 993
+>
+> Average degree of separation: 6324 // 994 = 6. Number in extended network: 994
+>
+> Average degree of separation: 5115 // 990 = 5. Number in extended network: 990
+>
 
 If we run this a few times, we see that the number of people in the extended network is always above 990 (99%) and the average degree of separation tends to be 5. Of course, because of the randomization of data, this will vary.
 
