@@ -5,7 +5,7 @@
     <br> d. [When do you use BFS over DFS?](#When-do-you-use-BFS-over-DFS?)
     <br>e. [DFS Iteratively](#DFS-Iteratively)  
     <br> f. [DFS Recursively](#DFS-Recursively)  
-    <br>f. [Why can we use DFS recursively?](#Why-can-we-do-DFS-recursively-but-not-really-BFS?)
+    <br>f. [Why can we use DFS recursively?](#Why-can-we-do-DFS-recursively-but-not-really-BFS?)  
     <br> g. [Example Code Challenge](#Let's-try-an-example-problem)
     <br>
     <br>
