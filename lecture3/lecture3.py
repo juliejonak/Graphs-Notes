@@ -135,8 +135,6 @@ class SocialGraph:
                         new_path.append(friendID)
                         q.enqueue(new_path)
 
-
-
 if __name__ == '__main__':
     sg = SocialGraph()
     start_time = time.time()

@@ -10,7 +10,7 @@
 
 # Lecture IV: Maze Traversal
 
-[CS18 Lecture IV Recording](https://www.youtube.com/watch?v=p263i-Shn9o)
+[CS18 Social Graph, Map Traversal: Brady Fukumoto](https://www.youtube.com/watch?v=p263i-Shn9o)
 
 
 Today we're going to go over the social network problems and work on the adventure project within the Graphs Sprint repo.

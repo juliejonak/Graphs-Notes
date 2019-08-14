@@ -10,13 +10,15 @@
 
 # Lecture III: Random Social Network
 
+_Note: these notes do not follow the CS18 lecture but instead, the CS19 lecture._
+
 ## Pre-Class Resources
 
 [Graphs: Connected Components](#https://youtu.be/EsyLzGWlsA8)
 
 [Follow Along Lecture Repo](#https://github.com/LambdaSchool/Graphs/tree/master/objectives/randomness)
 
-[CS18 Social Network: Brady Fukumoto]()  
+[CS18 Earliest Ancestor, Island Matrix: Brady Fukumoto](https://www.youtube.com/watch?v=RPWUmNEOxpk)  
 
 [CS19 Social Networks: Brian Doyle]()  
 
@@ -278,12 +280,12 @@ debug_friendship = 0
 for key in visited:
     debug_friendship += len(visited[key])
 
-return f"Average degree of separation: {debug_friendship // len(visited)}. Number in extended network: {len(visited)}"
+return f"Average degree of separation: {debug_friendship - 1 // len(visited)}. Number in extended network: {len(visited)}"
 ```
 
 <br>
 
-The length of visited tells us how many friends are in the user's extended network, which comes out to be 990+ each time, and the degree of separation is the length of each path to each extended friend, in total, divided by the number of friends in the extended network.
+The length of visited tells us how many friends are in the user's extended network, which comes out to be 990+ each time, and the degree of separation is the length of each path to each extended friend, in total, divided by the number of friends in the extended network (minus themselves).
 
 >> Average degree of separation: 5415 // 993 = 5. Number in extended network: 993
 >>
@@ -296,11 +298,112 @@ The length of visited tells us how many friends are in the user's extended netwo
 
 If we run this a few times, we see that the number of people in the extended network is always above 990 (99%) and the average degree of separation tends to be 5. Of course, because of the randomization of data, this will vary.
 
+<br>
+<br>
 
 
+## Islands Algorithm
+
+Let's tackle a problem:
+
+<br>
+
+```
+Write a function that takes a 2D binary array and returns the number of 1 islands. An island consists of 1s that are connected to the north, south, east or west. Diagonals do not count.
+
+For example:
+
+islands = [[0, 1, 0, 1, 0],
+           [1, 1, 0, 1, 1],
+           [0, 0, 1, 0, 0],
+           [1, 0, 1, 0, 0],
+           [1, 1, 0, 0, 0]]
+
+island_counter(islands) # returns 4
+```
+
+<br>
+
+This is not an adjacency matrix. How can we go about solving this?
+
+We can iterate through the matrix by rows and columns, checking for 1's (land). When a 1 is found, we'll look for neighbors that are also 1's and add them as connections, building a graph:
+
+![Building Graph](Islands1.png "Building Graph")
+
+Then traverse the graph to find all "visited" land points, until all were found, incrementing the island counter once an island was fully traversed, like so:
+
+![Traversing Islands](Islands2.png "Traversing Islands")
+
+The code is like so:
+
+<br>
+
+```
+islands = [[0, 1, 0, 1, 0],
+           [1, 1, 0, 1, 1],
+           [0, 0, 1, 0, 0],
+           [1, 0, 1, 0, 0],
+           [1, 1, 0, 0, 0]]
+
+def island_counter(islands):
+    graph = {}
+
+    for col in range(len(islands)):
+        for row in range(len(islands[col])):
+            if not islands[col][row] == 0:
+                con = []
+                if col > 0:
+                    if islands[col-1][row] != 0:
+                        con.append((col-1, row))
+                if col < len(islands) - 1:
+                    if islands[col+1][row] != 0:
+                        con.append((col+1, row))
+                if row > 0:
+                    if islands[col][row - 1] != 0:
+                        con.append((col, row - 1))
+                if row < len(islands[col]) - 1:
+                    if islands[col][row + 1] != 0:
+                        con.append((col, row + 1))
+                graph[(col, row)] = con
+
+    visited = set()
+
+    count = 0
+
+    for col in range(len(islands)):
+        for row in range(len(islands[col])):
+            # tuple(col, row)
+            if graph.get((col, row), None) and tuple([col, row]) not in visited:
+                print((col, row))
+                count += 1
+                q = []
+                q.append((col, row))
+                while len(q) > 0:
+                    vertex = q.pop(0)
+                    if vertex not in visited:
+                        visited.add(vertex)
+                        for neighbor in graph[vertex]:
+                            if neighbor not in visited:
+                                q.append(neighbor)
+    return count
+
+print(island_counter(islands))
+```
+
+<br>
+
+Brady Fukumoto also offered a DFS solution that creates a "visited" matrix using a nested for loop to traverse the rows and columns of the islands matrix. On each "found" land (1), he calls a DFS search to find the rest of the island, and increments the island counter.
 
 
+![Visited Matrix](Islands3.png "Visited Matrix")
 
+![DFS](Islands4.png "DFS")
 
+![Finding Neighbors](Islands5.png "Finding Neighbors")
 
+<br>
 
+See a tutorial that walks through DFS and BFS solutions [here](https://colorfulcodesblog.wordpress.com/2018/09/06/number-of-islands-tutorial-python/).  
+
+<br>
+<br>
