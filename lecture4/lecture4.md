@@ -409,17 +409,188 @@ Now we need to implement the BFS for traversing the graph.
 
 <br>
 
-This solution now passes all tests and returns the earliest ancestor, or lowest earliest ancestor in the case of a tie. The full code is available in [lecture4.py](lecture4.py).
+This solution now passes all tests and returns the earliest ancestor, or lowest earliest ancestor in the case of a tie. The full code is available in [lecture4.py](lecture4.py), along with an alternate solution.
 
 <br>
 <br>
 
+## Word Transformation
 
+Given two words (beginWord and endWord), and a dictionary's word list, return the shortest transformation sequence from beginWord to endWord, such that:
+
+Only one letter can be changed at a time.
+Each transformed word must exist in the word list. Note that beginWord is not a transformed word.
+
+Note:
+
+Return None if there is no such transformation sequence.
+All words have the same length.
+All words contain only lowercase alphabetic characters.
+You may assume no duplicates in the word list.
+You may assume beginWord and endWord are non-empty and are not the same.
+
+Sample:
+beginWord = "hit"
+endWord = "cog"
+return: ['hit', 'hot', 'cot', 'cog']
+
+beginWord = "sail"
+endWord = "boat"
+['sail', 'bail', 'boil', 'boll', 'bolt', 'boat']
+
+beginWord = "hungry"
+endWord = "happy"
+None
+
+We can use the 2MB [words.txt](words.txt) file to test against with its dictionary of words.
+
+<br>
+
+Let's look for key words to tell us about how to tackle the problem
+
+<br>
+
+* `dictionary` = words are nodes
+* `Shortest` = Breadth First Search
+* `transformation sequence` = path
+
+<br>
+
+As before, we need to build the graph, traverse the graph, and return the proper result.
+
+To work with our `words.txt` file, we'll use the following steps:
+
+<br>
+
+```
+# Open our word file as read only
+f = open('words.txt', 'r')
+
+# Stores a list of all the words, split by each line
+words = f.read().split("\n")
+
+# Add all words to a set, making sure all are lower case.
+word_set = set()
+for word in words:
+    word_set.add(word.lower())
+
+# close the file
+f.close()
+```
+
+<br>
+
+Rather than constructing a graph, we can traverse the existing list of words to find neighbors:
+
+<br>
+
+```
+def get_neighbors(word):
+    neighbors = []
+    # Turn the word into a list of characters
+    compare_word = list(word)
+```
+
+<br>
+
+`list[word]` is a Python trick to turn a string into a list of characters. We'll need to traverse the alphabet next. We could do it with a list like so:
+
+> alphabet = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z']
+
+Or we could do it like this:
+
+> for letter in list('abcdefghijklmnopqrstuvwxyz'):
+
+On the loop we want to loop through the compare_word and change each letter to check if it's a word in the provided word dictionary. We need to store a copy of the mutated word.
+
+We want to avoid building out a graph because this is a very dense graph, it would take up a lot of memory, and we can derive information we need from the original source of data, rather than storing it in a new data structure.
+
+<br>
+
+```
+def get_neighbors(word):
+    neighbors = []
+    # Turn the word into a list of characters
+    compare_word = list(word)
+
+    for i in range(len(compare_word)):
+        # loop through compare_word and change each letter to a new letter, checking if that new version is a word in the word dictionary
+        for letter in list('abcdefghijklmnopqrstuvwxyz'):
+            temp_word = list(compare_word)
+            temp_word[i] = letter
+            new_word = "".join(temp_word)
+            # Make sure the mutated word doesn't equal the starting word
+            if new_word != word and new_word in word_set:
+                neighbors.append(new_word)
+    
+    return neighbors
+```
+
+<br>
+
+Now we can find all of the word neighbors, we should run our search.
+
+<br>
+
+```
+# Search
+def find_word_ladder(beginWord, endWord):
+    visited = list()
+    q = Queue()
+    q.enqueue( [beginWord] )
+
+    while q.size() > 0:
+        path = q.dequeue()
+        vertex = path[-1]
+
+        if vertex not in visited:
+            visited.append(vertex)
+
+            # End when we find endWord
+            if vertex == endWord:
+                return path
+            
+            # If not endWord, find next word neighbors and keep searching
+            for neighbor in get_neighbors(vertex):
+                path_copy = list(path)
+                path_copy.append(neighbor)
+                q.enqueue(path_copy)
+```
+
+<br>
+
+If we run the test cases:
+
+<br>
+
+```
+print(find_word_ladder('hit', 'cog'))
+# return: ['hit', 'hot', 'cot', 'cog']
+
+print(find_word_ladder('sail', 'boat'))
+# ['sail', 'bail', 'boil', 'boll', 'bolt', 'boat']
+
+print(find_word_ladder('hungry', 'happy'))
+# None
+```
+
+<br>
+
+We receive back:
+
+> ['hit', 'cit', 'cot', 'cog']  
+> ['sail', 'bail', 'boil', 'boll', 'bolt', 'boat']  
+> None  
+
+So it looks like it's passing our pre-defined tests!
+
+<br>
+<br>
 
 
 ## Adventure Map Traversing
 
-This last portion of the project is both your project and Sprint Challenge. Because of its level of difficulty, you have extra time to work on it.
+This last portion of the project is both the project and Sprint Challenge. Because of its level of difficulty, there is extra time to work on it.
 
 Like a previous repo, we have an `adv.py` file and associated room, player and room files that help us travel (in the class Player).
 
@@ -493,9 +664,9 @@ Our traversalPath length won't match the number of rooms because we will need to
 
 When entries in the graph equal the number of rooms, then we know it's complete - or when the exit dictionary contains no question marks.
 
-HINT: A stack DFS might not be the best. It may lead you to complications.
+> HINT: A stack DFS might not be the best. It may lead you to complications.
 
-HINT: How do you turn a list of exits (n, s, e, w), into a dictionary filled with question marks?
+> HINT: How do you turn a list of exits (n, s, e, w), into a dictionary filled with question marks?
 
 When in doubt, use POLYA and stayed neat, organized, and well-planned.
 
@@ -520,8 +691,5 @@ When in doubt, use POLYA and stayed neat, organized, and well-planned.
 >Namespaces are one honking great idea -- let's do more of those!  
 
 <br>
-  
-`help(random.sample)` pulls up info on how to use that in the terminal. What is that extension?
-
 <br>
 <br>
