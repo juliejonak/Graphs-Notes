@@ -11,7 +11,7 @@
 
 [CS18 Social Graph, Map Traversal: Brady Fukumoto](https://www.youtube.com/watch?v=p263i-Shn9o)  
 
-[CS19 Earliest Ancestory: Brian Doyle]()  
+[CS19 Graphs IV, Earliest Ancestors: Brian Doyle](https://youtu.be/s3jZ7dKFtyI)  
 For CS19 notes, go straight to [Earliest Ancestor](#Earliest-Ancestor).
 
 <br>
