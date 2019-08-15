@@ -1,6 +1,11 @@
 1. [Lecture IV: Maze Traversal](#Lecture-IV:-Maze-Traversal)  
     <br>a. [Social Network Model Solution](#Social-Network-Model-Solution)  
     <br>b. [Implement Degrees of Separation](#Implement-Degrees-of-Separation)  
+    <br>c. [](#)
+
+
+
+
     <br>c. [Adventure Map Traversing](#Adventure-Map-Traversing)  
     <br>d. [](#)
     <br>e. [](#)
@@ -10,14 +15,23 @@
 
 # Lecture IV: Maze Traversal
 
-[CS18 Social Graph, Map Traversal: Brady Fukumoto](https://www.youtube.com/watch?v=p263i-Shn9o)
+[CS18 Social Graph, Map Traversal: Brady Fukumoto](https://www.youtube.com/watch?v=p263i-Shn9o)  
+[CS19 Earliest Ancestory: Brian Doyle]()  
 
+<br>
 
-Today we're going to go over the social network problems and work on the adventure project within the Graphs Sprint repo.
+[How to Get That Job at Google](https://steve-yegge.blogspot.com/2008/03/get-that-job-at-google.html)  
+[DFS and BFS Visualization](https://visualgo.net/en/dfsbfs)  
+[BFS Tutorial and Notes](https://www.hackerearth.com/practice/algorithms/graphs/breadth-first-search/tutorial/)  
+
 
 <br>
 
 ## Social Network Model Solution
+
+_CS18 went over the Social project solution in Lecture IV. CS19 skips down to the [Earliest Ancestory solution](#Earliest-Ancestor)_
+
+<br>
 
 We want to create a number of users and randomly distribute friendships between them, such that the average friendships per user matches the given integer.
 
@@ -190,6 +204,218 @@ The shuffle quadratic sampling performs better with dense graphs.
 
 <br>
 <br>
+
+## Earliest Ancestor
+
+The Earliest Ancestor problem is as follows:
+
+Suppose we have some input data describing a graph of relationships between parents and children over multiple generations. The data is formatted as a list of (parent, child) pairs, where each individual is assigned a unique integer identifier.
+
+For example, in this diagram and the sample input, 3 is a child of 1 and 2, and 5 is a child of 4:
+
+<br>
+
+```
+ 10
+ /
+1   2   4  11
+ \ /   / \ /
+  3   5   8
+   \ / \   \
+    6   7   9
+```
+
+<br>
+
+Write a function that, given the dataset and the ID of an individual in the dataset, returns their earliest known ancestor – the one at the farthest distance from the input individual. If there is more than one ancestor tied for "earliest", return the one with the lowest numeric ID. If the input individual has no parents, the function should return -1.
+
+<br>
+
+```
+Example input
+  6
+
+  1 3
+  2 3
+  3 6
+  5 6
+  5 7
+  4 5
+  4 8
+  8 9
+  11 8
+  10 1
+Example output
+  10
+```
+
+<br>
+
+Clarifications:
+* The input will not be empty.
+* There are no cycles in the input.
+* There are no "repeated" ancestors – if two individuals are connected, it is by exactly one path.
+* IDs will always be positive integers.
+* A parent may have any number of children.
+
+<br>
+
+A helpful starting point is to look at the tests. We find in our test file an example of the graph:
+
+<br>
+
+```
+test_ancestors = [(1, 3), (2, 3), (3, 6), (5, 6), (5, 7), (4, 5), (4, 8), (8, 9), (11, 8), (10, 1)]
+```
+
+<br>
+
+Some key words also stand out: 
+* `furthest distance` = looking for the _longest_ shortest path (BFS)
+* `relationships` (or `connections`) = a graph problem
+* `Integer ID` = node/vertex
+* `Parent Child Pair` = edges
+* `Only look up to an ancestor` = Directional Graph
+
+Knowing that it's a directional graph simplifies how we approach this problem. For example, 6 has an edge with 3 and 5, but because it's directed, 3 does _not_ share an edge with 6 (it's not bidirectional) and only cares about its shared edges with 1 and 2.
+
+`Furthest distance` is tricky because we have to find what are even viable paths first (not all relationships are the same), then track the paths to each ancestor, but only return the _longest_ of those shortest paths. It's like BFS, but a little different.
+
+<br>
+
+First, we need to make a graph. Then we'll traverse the graph, looking for the shortest paths between any two nodes, keeping track of the length of each path to return the longest one.
+
+Our psuedo-code looks like so:
+
+<br>
+
+```
+def earliest_ancestor(ancestors, starting_node):
+    # Make a graph
+    # If no parents, return -1
+
+
+    # Traverse the graph with BFS
+    # Look for the shortest paths between any two nodes
+
+    # Keep track of the lengths of the paths
+    # Return where the longest path ends
+    # If a tie, return lowest node number
+```
+
+<br>
+
+We'll need access to the Queue class as well to run BFS.
+
+Let's create a Graph class to build our graph:
+
+<br>
+
+```
+class Graph:
+    '''
+    Represent a graph as a dictionary of vertices mapping labels to edges
+    Easy to read, not a dense graph so preferable to a matrix, and no adverse consequences are apparent.
+    '''
+    def __init__(self):
+        self.vertices = {}
+
+    def add_vertex(self, vertex_id):
+        # Check if the vertex is already there before adding
+        if vertex_id not in self.vertices:
+            # Use a set instead of a list for quick lookup, avoids duplicates. Should keep in mind that in Python, it is unordered but auto-sorted
+            self.vertices[vertex_id] = set()
+        else:
+            # Error
+            pass
+    
+    def add_edge(self, vertex_from, vertex_to):
+        # Make sure vertices exist
+        if vertex_from in self.vertices and vertex_to in self.vertices:
+            # Only add one way because it's one-directional
+            # If we weren't using a set, we should check that we aren't setting duplicates
+            self.vertices[vertex_from].add(vertex_to)
+        else:
+            # Error
+            pass
+```
+
+<br>
+
+
+Using our Graph class, we'll setup our graph using the passed in ancestors:
+
+<br>
+
+```
+def earliest_ancestor(ancestors, starting_node):
+    # Make a graph
+    graph = Graph()
+
+    # Fill in the graph
+    for pair in ancestors:
+        graph.add_vertex(pair[0])
+        graph.add_vertex(pair[1])
+
+    # Add edge (child to parent)
+        graph.add_edge(pair[1], pair[0])
+```
+
+<br>
+
+Next, we'll add in variables to track:
+
+<br>
+
+```
+# Traverse the graph with BFS
+# Look for the shortest paths between any two nodes
+q = Queue()
+q.enqueue( [starting_node] )
+
+# Track length of current longest path, and current earliest ancestor
+max_path_length = 1
+# if no parents, will return -1
+earliest_ancestor = -1
+```
+
+<br>
+
+Now we need to implement the BFS for traversing the graph.
+
+<br>
+
+```
+    # While... if we find a longer path, replace those values
+    while q.size() > 0:
+        path = q.dequeue()
+        parent = path[-1]
+
+        # If a tie, return lowest node number
+        if ((len(path) > max_path_length) or
+            (len(path) == max_path_length and parent < earliest_ancestor)):
+
+            earliest_ancestor = parent
+            max_path_length = len(path)
+        
+        for neighbor in graph.vertices[parent]:
+            new_path = list(path)
+            new_path.append(neighbor)
+            q.enqueue(new_path)
+
+    # Return where the longest path ends
+    return earliest_ancestor
+```
+
+<br>
+
+This solution now passes all tests and returns the earliest ancestor, or lowest earliest ancestor in the case of a tie. The full code is available in [lecture4.py](lecture4.py).
+
+<br>
+<br>
+
+
+
 
 ## Adventure Map Traversing
 
