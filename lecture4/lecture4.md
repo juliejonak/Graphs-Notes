@@ -664,6 +664,10 @@ When entries in the graph equal the number of rooms, then we know it's complete 
 
 > HINT: How do you turn a list of exits (n, s, e, w), into a dictionary filled with question marks?
 
+An additional Q&A about this project with Brady Fukumoto can be found [here](https://www.youtube.com/watch?v=6z9nWnygG2I).
+
+<br>
+
 When in doubt, use POLYA and stayed neat, organized, and well-planned.
 
 >Beautiful is better than ugly.  
