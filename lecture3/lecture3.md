@@ -19,7 +19,7 @@ _Note: these notes do not follow the CS18 lecture but instead, the CS19 lecture.
 
 [CS18 Earliest Ancestor, Island Matrix: Brady Fukumoto](https://www.youtube.com/watch?v=RPWUmNEOxpk)  
 
-[CS19 Social Networks: Brian Doyle](https://youtu.be/U63YYzPAuKM)  
+[CS19 Social Networks: Brian Doyle](https://youtu.be/g4HB6d1IhKk)  
 
 <br>
 

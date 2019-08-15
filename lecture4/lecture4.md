@@ -1,22 +1,18 @@
 1. [Lecture IV: Maze Traversal](#Lecture-IV:-Maze-Traversal)  
     <br>a. [Social Network Model Solution](#Social-Network-Model-Solution)  
     <br>b. [Implement Degrees of Separation](#Implement-Degrees-of-Separation)  
-    <br>c. [](#)
-
-
-
-
-    <br>c. [Adventure Map Traversing](#Adventure-Map-Traversing)  
-    <br>d. [](#)
-    <br>e. [](#)
-
-<br>
+    <br>c. [Earliest Ancestor](#Earliest-Ancestor)  
+    <br>d. [Word Transformation](#Word-Transformation)  
+    <br>h. [Adventure Map Traversing](#Adventure-Map-Traversing)  
+    <br>
 <br>
 
 # Lecture IV: Maze Traversal
 
 [CS18 Social Graph, Map Traversal: Brady Fukumoto](https://www.youtube.com/watch?v=p263i-Shn9o)  
+
 [CS19 Earliest Ancestory: Brian Doyle]()  
+For CS19 notes, go straight to [Earliest Ancestor](#Earliest-Ancestor).
 
 <br>
 
